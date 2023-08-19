@@ -1,5 +1,5 @@
 # ramzanclinic
-
+Hours: <a href="https://wakatime.com/badge/user/a62cfb23-ccbd-4bfc-b190-5dd5c13cd292/project/e443beea-378a-4096-80fc-0c82e76377db"><img src="https://wakatime.com/badge/user/a62cfb23-ccbd-4bfc-b190-5dd5c13cd292/project/e443beea-378a-4096-80fc-0c82e76377db.svg" alt="wakatime"></a><br>
 A new Flutter project.
 
 ## Getting Started
