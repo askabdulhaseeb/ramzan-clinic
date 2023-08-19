@@ -2,6 +2,7 @@ import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 
 import 'database/local/local_db.dart';
+import 'screens/auth/signin_screen.dart';
 import 'utilities/utilities.dart';
 
 Future<void> main() async {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Scaffold(body: Center(child: Text('Init'))),
+      home: const SignInScreen(),
     );
   }
 }

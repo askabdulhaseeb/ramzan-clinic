@@ -11,8 +11,12 @@ class AuthAPI {
     required String email,
     required String password,
   }) async {
-    final User user = await _auth.signIn(email.trim(), password.trim());
-    final AppUser? appUser = await UserAPI().user(user.id);
-    return appUser;
+    try {
+      final User user = await _auth.signIn(email.trim(), password.trim());
+      final AppUser? appUser = await UserAPI().user(user.id);
+      return appUser;
+    } catch (e) {
+      return null;
+    }
   }
 }
