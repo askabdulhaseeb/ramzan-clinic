@@ -2,12 +2,13 @@ import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 
 import 'database/local/local_db.dart';
+import 'utilities/utilities.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await LocalDB.init();
-  const String apiKey = '';
-  const String projectID = '';
+  String apiKey = Utilities.apiKey;
+  String projectID = Utilities.projectID;
   Firestore.initialize(projectID);
   FirebaseAuth.initialize(apiKey, VolatileStore());
   runApp(const MyApp());
