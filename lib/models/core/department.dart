@@ -1,6 +1,10 @@
+import 'package:hive/hive.dart';
+
 import '../../functions/id_generator.dart';
 import '../../functions/time_fun.dart';
+part 'department.g.dart';
 
+@HiveType(typeId: 201)
 class Department {
   Department({
     required this.title,
@@ -13,10 +17,15 @@ class Department {
         registerDate = registerDate ?? DateTime.now(),
         lastUpdate = lastUpdate ?? DateTime.now();
 
+  @HiveField(0, defaultValue: 'null')
   final String departmentID;
+  @HiveField(1, defaultValue: 'null')
   final String title;
+  @HiveField(2, defaultValue: 'null')
   final String registerBy;
+  @HiveField(3)
   final DateTime registerDate;
+  @HiveField(4)
   final DateTime lastUpdate;
 
   Map<String, dynamic> toMap() {

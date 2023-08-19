@@ -1,6 +1,13 @@
+import 'package:hive/hive.dart';
+part 'gender.g.dart';
+
+@HiveType(typeId: 212)
 enum Gender {
+  @HiveField(0)
   male('Male', 'male'),
+  @HiveField(1)
   female('Female', 'female'),
+  @HiveField(2)
   other('other', 'other');
 
   const Gender(this.title, this.json);

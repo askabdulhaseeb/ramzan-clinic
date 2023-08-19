@@ -1,7 +1,12 @@
+import 'package:hive/hive.dart';
+
+import '../../database/local/local_address.dart';
 import '../../functions/id_generator.dart';
 import '../../functions/time_fun.dart';
+part 'address.g.dart';
 
-class Address {
+@HiveType(typeId: 200)
+class Address extends HiveObject {
   Address({
     required this.province,
     required this.district,
@@ -16,13 +21,21 @@ class Address {
         registerDate = registerDate ?? DateTime.now(),
         lastUpdate = lastUpdate ?? DateTime.now();
 
+  @HiveField(0, defaultValue: 'null')
   final String addressID;
+  @HiveField(1, defaultValue: 'null')
   final String country;
+  @HiveField(2, defaultValue: 'null')
   final String province;
+  @HiveField(3, defaultValue: 'null')
   final String district;
+  @HiveField(4, defaultValue: 'null')
   final String city;
+  @HiveField(5, defaultValue: 'null')
   final String town;
+  @HiveField(6, defaultValue: null)
   final DateTime registerDate;
+  @HiveField(7, defaultValue: null)
   final DateTime lastUpdate;
 
   Map<String, dynamic> toMap() {
@@ -40,7 +53,7 @@ class Address {
 
   // ignore: sort_constructors_first
   factory Address.fromMap(Map<String, dynamic> map) {
-    return Address(
+    final Address address = Address(
       addressID: map['address_id'] ?? '',
       country: map['country'] ?? '',
       province: map['province'] ?? '',
@@ -50,5 +63,14 @@ class Address {
       registerDate: TimeFun.parseTime(map['register_date']),
       lastUpdate: TimeFun.parseTime(map['last_update']),
     );
+    LocalAddress().add(address);
+    return address;
+  }
+
+  @override
+  String toString() {
+    return town.isEmpty
+        ? '$city, $district, $province, $country'
+        : '$town, $city, $district, $province, $country';
   }
 }

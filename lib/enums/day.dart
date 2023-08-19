@@ -1,10 +1,21 @@
+import 'package:hive/hive.dart';
+part 'day.g.dart';
+
+@HiveType(typeId: 211)
 enum Day {
+  @HiveField(0)
   monday('Monday', 'monday'),
+  @HiveField(1)
   tuesday('Tuesday', 'tuesday'),
+  @HiveField(2)
   wednesday('Wednesday', 'wednesday'),
+  @HiveField(3)
   thursday('Thursday', 'thursday'),
+  @HiveField(4)
   friday('Friday', 'friday'),
+  @HiveField(5)
   saturday('Saturday', 'saturday'),
+  @HiveField(6)
   sunday('Sunday', 'sunday');
 
   const Day(this.title, this.json);

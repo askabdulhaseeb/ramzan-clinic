@@ -1,8 +1,11 @@
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 
+import 'database/local/local_db.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalDB.init();
   const String apiKey = '';
   const String projectID = '';
   Firestore.initialize(projectID);
@@ -24,3 +27,11 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+// Hive
+// flutter packages pub run build_runner build
+// Core 200...210
+// Enum 211...220
+
+// User 11...19
+// User 21...29
