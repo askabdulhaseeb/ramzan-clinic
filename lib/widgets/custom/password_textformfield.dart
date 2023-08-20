@@ -8,13 +8,16 @@ class PasswordTextFormField extends StatefulWidget {
   const PasswordTextFormField({
     required TextEditingController controller,
     this.textInputAction = TextInputAction.done,
+    this.padding,
     this.hint = 'Password',
     this.color,
     this.starticon,
     Key? key,
   })  : _controller = controller,
         super(key: key);
+
   final TextEditingController _controller;
+  final EdgeInsetsGeometry? padding;
   final String hint;
   final TextInputAction? textInputAction;
   final Color? color;
@@ -42,6 +45,7 @@ class PasswordTextFormFieldState extends State<PasswordTextFormField> {
   Widget build(BuildContext context) {
     const InputBorder border = OutlineInputBorder();
     return Container(
+      padding: widget.padding ?? const EdgeInsets.symmetric(vertical: 4),
       constraints: BoxConstraints(maxWidth: Utilities.maxWidth),
       child: TextFormField(
         controller: widget._controller,

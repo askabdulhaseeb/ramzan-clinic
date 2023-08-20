@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import '../../database/apis/auth_api.dart';
@@ -7,10 +8,11 @@ import '../../widgets/custom/custom_elevated_button.dart';
 import '../../widgets/custom/custom_textformfield.dart';
 import '../../widgets/custom/custom_toast.dart';
 import '../../widgets/custom/password_textformfield.dart';
+import 'signup_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
-
+  static const String routeName = '/signin';
   @override
   State<SignInScreen> createState() => _SignInScreenState();
 }
@@ -49,6 +51,28 @@ class _SignInScreenState extends State<SignInScreen> {
                 title: 'Sign In',
                 isLoading: isLoading,
                 onTap: onSignIn,
+              ),
+              const SizedBox(height: 8),
+              RichText(
+                text: TextSpan(
+                  children: <TextSpan>[
+                    const TextSpan(
+                      text: 'You are a new user? ',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    TextSpan(
+                        text: 'Sign Up',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Navigator.of(context)
+                                .pushNamed(SignUpScreen.routeName);
+                          }),
+                  ],
+                ),
               ),
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 
+import 'basics.dart';
 import 'database/local/local_db.dart';
 import 'screens/auth/signin_screen.dart';
 import 'utilities/utilities.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const SignInScreen(),
+      routes: myRoutes,
     );
   }
 }

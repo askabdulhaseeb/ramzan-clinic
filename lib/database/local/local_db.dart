@@ -10,6 +10,7 @@ import '../../models/core/routine.dart';
 import '../../models/patient/patient.dart';
 import '../../models/user/app_user.dart';
 import 'local_address.dart';
+import 'local_auth.dart';
 import 'local_department.dart';
 import 'local_patient.dart';
 import 'local_user.dart';
@@ -19,6 +20,7 @@ class LocalDB {
     Directory directory = await getApplicationDocumentsDirectory();
     Hive.init(directory.path);
     await Hive.initFlutter();
+    await LocalAuth.init();
 
     // ADAPTERS
     // User 11...19

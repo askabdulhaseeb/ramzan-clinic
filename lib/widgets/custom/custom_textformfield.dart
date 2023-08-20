@@ -6,6 +6,7 @@ import '../../utilities/utilities.dart';
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
     required TextEditingController? controller,
+    this.textCapitalization,
     this.padding,
     this.onFieldSubmitted,
     this.focusNode,
@@ -31,10 +32,12 @@ class CustomTextFormField extends StatefulWidget {
     Key? key,
   })  : _controller = controller,
         super(key: key);
+
   final TextEditingController? _controller;
   final EdgeInsetsGeometry? padding;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
+  final TextCapitalization? textCapitalization;
   final void Function(String)? onChanged;
   final bool showSuffixIcon;
   final String? Function(String? value)? validator;
@@ -76,12 +79,14 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
   Widget build(BuildContext context) {
     const InputBorder border = OutlineInputBorder();
     return Container(
-      padding: widget.padding ?? const EdgeInsets.symmetric(vertical: 8),
+      padding: widget.padding ?? const EdgeInsets.symmetric(vertical: 4),
       constraints: BoxConstraints(maxWidth: Utilities.maxWidth),
       child: TextFormField(
         initialValue: widget.initialValue,
         controller: widget._controller,
         readOnly: widget.readOnly,
+        textCapitalization:
+            widget.textCapitalization ?? TextCapitalization.none,
         keyboardType: widget.keyboardType == TextInputType.number
             ? const TextInputType.numberWithOptions(signed: true, decimal: true)
             : widget.maxLines! > 1

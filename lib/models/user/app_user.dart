@@ -20,7 +20,9 @@ class AppUser {
     required this.salary,
     required this.address,
     required this.routine,
+    this.password = '',
     this.isAdmin = false,
+    this.isRegistered = true,
     String? fullAddress,
     DateTime? registerDate,
     DateTime? lastUpdate,
@@ -60,12 +62,17 @@ class AppUser {
   final DateTime registerDate;
   @HiveField(13)
   final DateTime lastUpdate;
+  @HiveField(14)
+  final String password;
+  @HiveField(15)
+  final bool isRegistered;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'uid': uid,
       'name': name,
       'email': email,
+      'password': password,
       'image_url': imageURL,
       'department': department.toMap(),
       'phone_number': phoneNumber,
@@ -77,6 +84,7 @@ class AppUser {
       'register_date': registerDate,
       'last_update': lastUpdate,
       'is_admin': isAdmin,
+      'is_registered': isRegistered,
     };
   }
 
@@ -86,6 +94,7 @@ class AppUser {
       uid: map['uid'] ?? '',
       name: map['name'] ?? '',
       email: map['email'] ?? '',
+      password: map['password'] ?? '',
       isAdmin: map['is_admin'] ?? false,
       imageURL: map['image_url'] ?? '',
       department: Department.fromMap(map['department'] as Map<String, dynamic>),
@@ -97,6 +106,7 @@ class AppUser {
       routine: Routine.fromMap(map['routine'] as Map<String, dynamic>),
       registerDate: TimeFun.parseTime(map['register_date']),
       lastUpdate: TimeFun.parseTime(map['last_update']),
+      isRegistered: map['is_registered'] ?? false,
     );
     LocalUser().add(user);
     return user;
