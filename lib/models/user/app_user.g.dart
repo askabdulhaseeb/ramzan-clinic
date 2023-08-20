@@ -22,12 +22,14 @@ class AppUserAdapter extends TypeAdapter<AppUser> {
       email: fields[2] as String,
       imageURL: fields[4] as String,
       department: fields[5] as Department,
-      phoneNumber: fields[6] as String,
+      phoneNumber: (fields[6] as List).cast<String>(),
       jobDescription: fields[7] as String,
       salary: fields[8] as double,
       address: fields[9] as Address,
-      routine: fields[11] as Routine,
+      routine: (fields[11] as List?)?.cast<Routine>(),
+      password: fields[14] as String,
       isAdmin: fields[3] as bool,
+      isRegistered: fields[15] as bool,
       fullAddress: fields[10] as String?,
       registerDate: fields[12] as DateTime?,
       lastUpdate: fields[13] as DateTime?,
@@ -37,7 +39,7 @@ class AppUserAdapter extends TypeAdapter<AppUser> {
   @override
   void write(BinaryWriter writer, AppUser obj) {
     writer
-      ..writeByte(14)
+      ..writeByte(16)
       ..writeByte(0)
       ..write(obj.uid)
       ..writeByte(1)
@@ -65,7 +67,11 @@ class AppUserAdapter extends TypeAdapter<AppUser> {
       ..writeByte(12)
       ..write(obj.registerDate)
       ..writeByte(13)
-      ..write(obj.lastUpdate);
+      ..write(obj.lastUpdate)
+      ..writeByte(14)
+      ..write(obj.password)
+      ..writeByte(15)
+      ..write(obj.isRegistered);
   }
 
   @override

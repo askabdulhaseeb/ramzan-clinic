@@ -7,22 +7,22 @@ part 'routine.g.dart';
 class Routine {
   Routine({
     required this.day,
-    required this.staringHour,
-    required this.staringMinute,
-    required this.endingHour,
-    required this.endingMinute,
+    this.staringHour = 0,
+    this.staringMinute = 0,
+    this.endingHour = 0,
+    this.endingMinute = 0,
   });
 
   @HiveField(0)
   final Day day;
   @HiveField(1, defaultValue: 0)
-  final int staringHour;
+  int staringHour;
   @HiveField(2, defaultValue: 0)
-  final int staringMinute;
+  int staringMinute;
   @HiveField(3, defaultValue: 0)
-  final int endingHour;
+  int endingHour;
   @HiveField(4, defaultValue: 0)
-  final int endingMinute;
+  int endingMinute;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{

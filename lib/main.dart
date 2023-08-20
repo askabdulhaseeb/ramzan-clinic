@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 
 import 'basics.dart';
+import 'database/apis/auth_api.dart';
 import 'database/local/local_db.dart';
 import 'screens/auth/signin_screen.dart';
+import 'screens/bashboard/dashboard_screen.dart';
 import 'utilities/utilities.dart';
+import 'widgets/custom/loader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +31,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SignInScreen(),
+      home: StreamBuilder<bool>(
+        stream: AuthAPI().signInState,
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          log('Login State: ${snapshot.connectionState.name}');
+          return snapshot.data ?? false
+              ? const DashboardScreen()
+              : const SignInScreen();
+        },
+      ),
       routes: myRoutes,
     );
   }

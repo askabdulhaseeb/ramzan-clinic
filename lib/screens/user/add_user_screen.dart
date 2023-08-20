@@ -1,29 +1,26 @@
 import 'dart:io';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
-import '../../database/apis/auth_api.dart';
 import '../../database/apis/user_api.dart';
-import '../../enums/registration_status.dart';
+import '../../enums/profile_state.dart';
 import '../../functions/picker_fun.dart';
-import '../../models/user/app_user.dart';
 import '../../utilities/custom_validator.dart';
 import '../../utilities/utilities.dart';
+import '../../widgets/custom/custom_appbar.dart';
 import '../../widgets/custom/custom_circular_image.dart';
 import '../../widgets/custom/custom_elevated_button.dart';
 import '../../widgets/custom/custom_textformfield.dart';
 import '../../widgets/custom/custom_toast.dart';
 import '../../widgets/custom/password_textformfield.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
-  static const String routeName = '/signup';
+class AddUserScreen extends StatefulWidget {
+  const AddUserScreen({Key? key}) : super(key: key);
+  static const String routeName = '/add-user';
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<AddUserScreen> createState() => _AddUserScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _AddUserScreenState extends State<AddUserScreen> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _phoneNumber = TextEditingController();
   final TextEditingController _email = TextEditingController();
@@ -33,7 +30,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   bool isLoading = false;
   File? file;
-  Text statusText = Text('');
+  Text statusText = const Text('');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,10 +43,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                const Text(
-                  'Sign Up',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                ),
+                const CustomAppBar(title: 'Add User'),
                 const SizedBox(height: 32),
                 Stack(
                   alignment: Alignment.bottomRight,
@@ -129,28 +123,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   isLoading: isLoading,
                   onTap: onSignUp,
                 ),
-                const SizedBox(height: 8),
-                RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      const TextSpan(
-                        text: 'Already have a account? ',
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      TextSpan(
-                          text: 'Sign In',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
-                          ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.of(context).pop();
-                            }),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 80),
               ],
             ),
           ),
@@ -159,38 +131,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  Future<void> addingMember() async {
+    if (true) {
+      if (!mounted) return;
+      CustomToast.errorSnackBar(context: context, text: 'User Not Found');
+    }
+  }
+
   Future<void> onSignUp() async {
     if (!_key.currentState!.validate()) return;
     setState(() {
       isLoading = true;
     });
-    final RegistrationStatus status = await UserAPI().canRegister(_email.text);
-    if (status == RegistrationStatus.canRegister) {
+    final ProfileState status = await UserAPI().canRegister(_email.text);
+    if (status == ProfileState.notExist) {
       setState(() {
         statusText = const Text(
           'Registration Start, Please wait...',
           style: TextStyle(color: Colors.green),
         );
       });
-
-      final AppUser? user =
-          await AuthAPI().signUp(email: _email.text, password: _password.text);
-
-      if (user == null) {
-        if (!mounted) return;
-        CustomToast.errorSnackBar(context: context, text: 'User Not Found');
-      }
-    } else if (status == RegistrationStatus.alreadyRegister) {
+      await addingMember();
+    } else if (status == ProfileState.readyToRegister) {
       setState(() {
         statusText = const Text(
           'You already registered, please Sign in',
           style: TextStyle(color: Colors.blue),
         );
       });
-    } else if (status == RegistrationStatus.canNotRegister) {
+    } else if (status == ProfileState.complate) {
       setState(() {
         statusText = const Text(
-          '''You can't register yet, please contact admin''',
+          '''You can't register''',
           style: TextStyle(color: Colors.green),
         );
       });

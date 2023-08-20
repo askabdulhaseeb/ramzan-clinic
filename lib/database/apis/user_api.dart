@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:firedart/firedart.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
-import '../../enums/registration_status.dart';
+import '../../enums/profile_state.dart';
 import '../../models/user/app_user.dart';
 import '../local/local_auth.dart';
 
@@ -24,17 +24,17 @@ class UserAPI {
     }
   }
 
-  Future<RegistrationStatus> canRegister(String email) async {
+  Future<ProfileState> canRegister(String email) async {
     try {
       final List<Document> doc =
           await _collection.where('email', isEqualTo: email.trim()).get();
-      if (doc.isEmpty) return RegistrationStatus.canNotRegister;
+      if (doc.isEmpty) return ProfileState.notExist;
       final AppUser user = AppUser.fromMap(doc[0].map);
       return user.isRegistered
-          ? RegistrationStatus.alreadyRegister
-          : RegistrationStatus.canRegister;
+          ? ProfileState.complate
+          : ProfileState.readyToRegister;
     } catch (e) {
-      return RegistrationStatus.error;
+      return ProfileState.error;
     }
   }
 
