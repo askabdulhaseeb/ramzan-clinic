@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 
+import '../../database/apis/auth_api.dart';
 import '../../functions/id_generator.dart';
 import '../../functions/time_fun.dart';
 part 'department.g.dart';
@@ -12,8 +13,9 @@ class Department {
     String? registerBy,
     DateTime? registerDate,
     DateTime? lastUpdate,
+    this.isActive = true,
   })  : departmentID = departmentID ?? IdGenerator.department(title),
-        registerBy = registerBy ?? '',
+        registerBy = registerBy ?? AuthAPI.uid,
         registerDate = registerDate ?? DateTime.now(),
         lastUpdate = lastUpdate ?? DateTime.now();
 
@@ -27,14 +29,17 @@ class Department {
   final DateTime registerDate;
   @HiveField(4)
   final DateTime lastUpdate;
+  @HiveField(5)
+  bool isActive;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'department_id': departmentID,
-      'title': title,
+      'title': title.trim(),
       'register_by': registerBy,
       'register_date': registerDate,
       'last_update': lastUpdate,
+      'is_active': isActive,
     };
   }
 
@@ -46,6 +51,7 @@ class Department {
       registerBy: map['register_by'] ?? '',
       registerDate: TimeFun.parseTime(map['register_date']),
       lastUpdate: TimeFun.parseTime(map['last_update']),
+      isActive: map['is_active'] ?? false,
     );
   }
 }

@@ -33,10 +33,10 @@ class LocalUser {
 
   Future<AppUser> user(String uid) async {
     final AppUser? user = _box.get(uid);
-    return user ?? await _loadUser(uid);
+    return user ?? await _load(uid);
   }
 
-  Future<AppUser> _loadUser(String uid) async {
+  Future<AppUser> _load(String uid) async {
     return await UserAPI().user(uid) ?? _null;
   }
 

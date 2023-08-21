@@ -2,23 +2,32 @@ import 'dart:io';
 
 import 'package:firedart/firedart.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 import '../../enums/profile_state.dart';
 import '../../models/user/app_user.dart';
 import '../local/local_auth.dart';
+import '../local/local_user.dart';
 
 class UserAPI {
   final CollectionReference _collection =
       Firestore.instance.collection('users');
 
   Future<void> create(AppUser value) async {
-    await _collection.document(value.uid).set(value.toMap());
+    try {
+      await _collection.document(value.uid).set(value.toMap());
+      LocalUser().add(value);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   Future<AppUser?> user(String value) async {
     try {
       final Document doc = await _collection.document(value).get();
-      return AppUser.fromMap(doc.map);
+      final AppUser user = AppUser.fromMap(doc.map);
+      LocalUser().add(user);
+      return user;
     } catch (e) {
       return null;
     }

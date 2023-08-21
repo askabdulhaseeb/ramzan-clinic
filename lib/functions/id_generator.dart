@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import '../database/apis/auth_api.dart';
+
 class IdGenerator {
   static String patientID(String name) {
     return '${placeholder(name).toLowerCase()}${generateRandomString(length: 6)}';
@@ -18,10 +20,8 @@ class IdGenerator {
     const String letterUpperCase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     // don't user 0, it confuse users sometimes with 'o' and 'O'
     const String number = '123456789';
-    const String possibleChar = letterLowerCase +
-        // AuthMethods.uid +
-        letterUpperCase +
-        number;
+    final String possibleChar =
+        letterLowerCase + AuthAPI.uid + letterUpperCase + number;
     return List<String>.generate(length, (int index) {
       final int indexRandom = Random.secure().nextInt(possibleChar.length);
       return possibleChar[indexRandom];
@@ -38,5 +38,5 @@ class IdGenerator {
   }
 
   static String _trim(String value) =>
-      value.trim().toLowerCase().substring(0, value.indexOf(' '));
+      value.trim().toLowerCase().replaceAll(' ', '-');
 }

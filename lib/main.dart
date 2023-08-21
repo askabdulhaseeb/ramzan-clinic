@@ -9,7 +9,6 @@ import 'database/local/local_db.dart';
 import 'screens/auth/signin_screen.dart';
 import 'screens/bashboard/dashboard_screen.dart';
 import 'utilities/utilities.dart';
-import 'widgets/custom/loader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

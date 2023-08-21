@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../database/apis/user_api.dart';
 import '../../enums/profile_state.dart';
 import '../../functions/picker_fun.dart';
+import '../../models/core/department.dart';
 import '../../utilities/custom_validator.dart';
 import '../../utilities/utilities.dart';
 import '../../widgets/custom/custom_appbar.dart';
@@ -12,6 +13,7 @@ import '../../widgets/custom/custom_elevated_button.dart';
 import '../../widgets/custom/custom_textformfield.dart';
 import '../../widgets/custom/custom_toast.dart';
 import '../../widgets/custom/password_textformfield.dart';
+import '../../widgets/department/department_dropdown_widget.dart';
 
 class AddUserScreen extends StatefulWidget {
   const AddUserScreen({Key? key}) : super(key: key);
@@ -28,6 +30,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
   final TextEditingController _confirmPassword = TextEditingController();
   final TextEditingController _fillAddress = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  List<String> phoneNumbers = <String>[];
   bool isLoading = false;
   File? file;
   Text statusText = const Text('');
@@ -86,19 +89,85 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 SizedBox(
                   width: Utilities.maxWidth,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      const Text('+92'),
-                      const SizedBox(width: 8),
+                      const Text('Department'),
+                      const SizedBox(width: 10),
                       Expanded(
-                        child: CustomTextFormField(
-                          controller: _phoneNumber,
-                          hint: '3001234567',
-                          readOnly: isLoading,
-                          keyboardType: TextInputType.phone,
-                          validator: (String? value) =>
-                              CustomValidator.lengthLessThen(value, 11),
+                        child: DepartmentDropdownWidget(
+                          onChanged: (Department value) {},
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  width: Utilities.maxWidth,
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(width: 4),
+                          const Text('+92'),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: CustomTextFormField(
+                              controller: _phoneNumber,
+                              hint: '3001234567',
+                              readOnly: isLoading,
+                              keyboardType: TextInputType.phone,
+                              validator: (String? value) =>
+                                  phoneNumbers.isEmpty ? 'Add Number' : null,
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              final String number =
+                                  '+92${_phoneNumber.text.trim()}';
+                              if (!phoneNumbers.contains(number)) {
+                                phoneNumbers.add(number);
+                                _phoneNumber.clear();
+                              }
+                              setState(() {});
+                            },
+                            icon: const Icon(Icons.done),
+                          ),
+                        ],
+                      ),
+                      Wrap(
+                        children: phoneNumbers
+                            .map((String e) => Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 4, horizontal: 8),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      const SizedBox(width: 6),
+                                      Text(e),
+                                      IconButton(
+                                        onPressed: () => setState(() {
+                                          phoneNumbers.remove(e);
+                                        }),
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.red,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ))
+                            .toList(),
                       ),
                     ],
                   ),

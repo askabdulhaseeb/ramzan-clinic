@@ -43,7 +43,10 @@ class PasswordTextFormFieldState extends State<PasswordTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    const InputBorder border = OutlineInputBorder();
+    final InputBorder border = OutlineInputBorder(
+      borderSide:
+          BorderSide(color: Theme.of(context).textTheme.bodySmall!.color!),
+    );
     return Container(
       padding: widget.padding ?? const EdgeInsets.symmetric(vertical: 4),
       constraints: BoxConstraints(maxWidth: Utilities.maxWidth),

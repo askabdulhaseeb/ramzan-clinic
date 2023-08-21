@@ -30,12 +30,14 @@ class LocalDepartment {
     }
   }
 
-  Future<Department> address(String id) async {
+  Future<Department> department(String id) async {
     final Department? user = _box.get(id);
-    return user ?? await _loadUser(id);
+    return user ?? await _load(id);
   }
 
-  Future<Department> _loadUser(String id) async {
+  List<Department> get departments => _box.values.toList();
+
+  Future<Department> _load(String id) async {
     return await DepartmentAPI().department(id) ?? _null;
   }
 

@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
 
+import '../../database/apis/auth_api.dart';
 import '../../database/local/local_address.dart';
 import '../../functions/id_generator.dart';
 import '../../functions/time_fun.dart';
@@ -12,12 +13,16 @@ class Address extends HiveObject {
     required this.district,
     required this.city,
     required this.town,
+    String? string,
+    String? addBy,
     String? addressID,
     String? country,
     DateTime? registerDate,
     DateTime? lastUpdate,
-  })  : addressID = addressID ?? IdGenerator.address(city),
+  })  : addressID = addressID ?? IdGenerator.address(town),
         country = country ?? 'Pakistan',
+        string = string ?? '$town, $city, $district, $province, $country',
+        addBy = addBy ?? AuthAPI.uid,
         registerDate = registerDate ?? DateTime.now(),
         lastUpdate = lastUpdate ?? DateTime.now();
 
@@ -37,15 +42,21 @@ class Address extends HiveObject {
   final DateTime registerDate;
   @HiveField(7, defaultValue: null)
   final DateTime lastUpdate;
+  @HiveField(8, defaultValue: 'null')
+  final String addBy;
+  @HiveField(9, defaultValue: 'null')
+  final String string;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'address_id': addressID,
-      'country': country,
-      'province': province,
-      'district': district,
-      'city': city,
-      'town': town,
+      'country': country.trim(),
+      'province': province.trim(),
+      'district': district.trim(),
+      'city': city.trim(),
+      'town': town.trim(),
+      'string': string,
+      'add_by': addBy,
       'register_date': registerDate,
       'last_update': lastUpdate,
     };
@@ -60,6 +71,8 @@ class Address extends HiveObject {
       district: map['district'] ?? '',
       city: map['city'] ?? '',
       town: map['town'] ?? '',
+      string: map['string'] ?? '',
+      addBy: map['add_by'] ?? '',
       registerDate: TimeFun.parseTime(map['register_date']),
       lastUpdate: TimeFun.parseTime(map['last_update']),
     );

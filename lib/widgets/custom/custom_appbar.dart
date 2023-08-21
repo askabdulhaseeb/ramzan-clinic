@@ -19,25 +19,28 @@ class CustomAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: width ?? Utilities.maxWidth,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Navigator.of(context).canPop()
-              ? IconButton(
-                  onPressed: () => Navigator.of(context).pop(),
-                  icon: Icon(Icons.adaptive.arrow_back),
-                )
-              : const SizedBox(width: 20),
-          title == null
-              ? const SizedBox()
-              : Text(title ?? '',
-                  style: textStyle ??
-                      const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      )),
-          actions ?? const SizedBox(width: 10),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Navigator.of(context).canPop()
+                ? IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(Icons.adaptive.arrow_back),
+                  )
+                : const SizedBox(width: 20),
+            title == null
+                ? const SizedBox()
+                : Text(title ?? '',
+                    style: textStyle ??
+                        const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        )),
+            actions ?? const SizedBox(width: 10),
+          ],
+        ),
       ),
     );
   }

@@ -31,10 +31,17 @@ class LocalAddress {
 
   Future<Address> address(String id) async {
     final Address? user = _box.get(id);
-    return user ?? await _loadUser(id);
+    return user ?? await _load(id);
   }
 
-  Future<Address> _loadUser(String id) async {
+  List<Address> searchAddress(String value) {
+    return _box.values
+        .where((Address element) =>
+            element.string.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+  }
+
+  Future<Address> _load(String id) async {
     return await AddressAPI().address(id) ?? _null;
   }
 

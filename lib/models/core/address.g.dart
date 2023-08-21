@@ -21,6 +21,7 @@ class AddressAdapter extends TypeAdapter<Address> {
       district: fields[3] == null ? 'null' : fields[3] as String,
       city: fields[4] == null ? 'null' : fields[4] as String,
       town: fields[5] == null ? 'null' : fields[5] as String,
+      addBy: fields[8] == null ? 'null' : fields[8] as String?,
       addressID: fields[0] == null ? 'null' : fields[0] as String?,
       country: fields[1] == null ? 'null' : fields[1] as String?,
       registerDate: fields[6] as DateTime?,
@@ -31,7 +32,7 @@ class AddressAdapter extends TypeAdapter<Address> {
   @override
   void write(BinaryWriter writer, Address obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.addressID)
       ..writeByte(1)
@@ -47,7 +48,9 @@ class AddressAdapter extends TypeAdapter<Address> {
       ..writeByte(6)
       ..write(obj.registerDate)
       ..writeByte(7)
-      ..write(obj.lastUpdate);
+      ..write(obj.lastUpdate)
+      ..writeByte(8)
+      ..write(obj.addBy);
   }
 
   @override

@@ -33,10 +33,10 @@ class LocalPatient {
 
   Future<Patient> patient(String id) async {
     final Patient? user = _box.get(id);
-    return user ?? await _loadUser(id);
+    return user ?? await _load(id);
   }
 
-  Future<Patient> _loadUser(String id) async {
+  Future<Patient> _load(String id) async {
     return await PatientAPI().patient(id) ?? _null;
   }
 
