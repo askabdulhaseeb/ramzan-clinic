@@ -4,11 +4,15 @@ import '../database/apis/auth_api.dart';
 
 class IdGenerator {
   static String dummyUser(String name) {
-    return '${placeholder(name).toLowerCase()}${generateRandomString(length: 6)}';
+    return '${_trim(name).toLowerCase()}${generateRandomString()}';
   }
 
   static String patientID(String name) {
-    return '${placeholder(name).toLowerCase()}${generateRandomString(length: 6)}';
+    return '${_trim(name).toLowerCase()}${generateRandomString()}';
+  }
+
+  static String provigarID(String name) {
+    return '${_trim(name).toLowerCase()}${generateRandomString()}';
   }
 
   static String department(String title) {
@@ -41,6 +45,7 @@ class IdGenerator {
     return temp;
   }
 
-  static String _trim(String value) =>
-      value.trim().toLowerCase().replaceAll(' ', '-');
+  static String _trim(String value) => value.contains(' ')
+      ? value.trim().toLowerCase()
+      : value.trim().toLowerCase().replaceAll(' ', '-');
 }

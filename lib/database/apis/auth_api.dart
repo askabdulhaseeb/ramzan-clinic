@@ -1,5 +1,6 @@
 import 'package:firedart/auth/firebase_auth.dart';
 import 'package:firedart/auth/user_gateway.dart';
+import 'package:flutter/material.dart';
 
 import '../../models/user/app_user.dart';
 import 'user_api.dart';
@@ -22,7 +23,7 @@ class AuthAPI {
       final AppUser? appUser = await UserAPI().user(user.id);
       return appUser;
     } catch (e) {
-      print(e);
+      debugPrint('$email & $password - $e');
       return null;
     }
   }
