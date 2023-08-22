@@ -3,6 +3,10 @@ import 'dart:math';
 import '../database/apis/auth_api.dart';
 
 class IdGenerator {
+  static String dummyUser(String name) {
+    return '${placeholder(name).toLowerCase()}${generateRandomString(length: 6)}';
+  }
+
   static String patientID(String name) {
     return '${placeholder(name).toLowerCase()}${generateRandomString(length: 6)}';
   }

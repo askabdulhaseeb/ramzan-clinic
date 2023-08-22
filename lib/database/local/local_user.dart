@@ -1,8 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../models/core/address.dart';
-import '../../models/core/department.dart';
 import '../../models/user/app_user.dart';
 import '../apis/user_api.dart';
 
@@ -45,10 +43,9 @@ class LocalUser {
         name: 'Null',
         email: 'null@null.com',
         imageURL: '',
-        department: Department(title: 'null'),
+        departmentID: '',
         phoneNumber: <String>[],
         jobDescription: '',
         salary: 0.0,
-        address: Address(province: '', district: '', city: '', town: ''),
       );
 }

@@ -21,11 +21,11 @@ class AppUserAdapter extends TypeAdapter<AppUser> {
       name: fields[1] as String,
       email: fields[2] as String,
       imageURL: fields[4] as String,
-      department: fields[5] as Department,
+      departmentID: fields[5] as String,
       phoneNumber: (fields[6] as List).cast<String>(),
       jobDescription: fields[7] as String,
       salary: fields[8] as double,
-      address: fields[9] as Address,
+      addressID: fields[9] as String?,
       routine: (fields[11] as List?)?.cast<Routine>(),
       password: fields[14] as String,
       isAdmin: fields[3] as bool,
@@ -51,7 +51,7 @@ class AppUserAdapter extends TypeAdapter<AppUser> {
       ..writeByte(4)
       ..write(obj.imageURL)
       ..writeByte(5)
-      ..write(obj.department)
+      ..write(obj.departmentID)
       ..writeByte(6)
       ..write(obj.phoneNumber)
       ..writeByte(7)
@@ -59,7 +59,7 @@ class AppUserAdapter extends TypeAdapter<AppUser> {
       ..writeByte(8)
       ..write(obj.salary)
       ..writeByte(9)
-      ..write(obj.address)
+      ..write(obj.addressID)
       ..writeByte(10)
       ..write(obj.fullAddress)
       ..writeByte(11)

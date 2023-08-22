@@ -8,6 +8,7 @@ class PasswordTextFormField extends StatefulWidget {
   const PasswordTextFormField({
     required TextEditingController controller,
     this.textInputAction = TextInputAction.done,
+    this.validator,
     this.padding,
     this.hint = 'Password',
     this.color,
@@ -20,6 +21,7 @@ class PasswordTextFormField extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
   final String hint;
   final TextInputAction? textInputAction;
+  final String? Function(String? value)? validator;
   final Color? color;
   final IconData? starticon;
   @override
@@ -56,7 +58,9 @@ class PasswordTextFormFieldState extends State<PasswordTextFormField> {
         keyboardType: TextInputType.visiblePassword,
         textInputAction: widget.textInputAction,
         cursorColor: Theme.of(context).colorScheme.primary,
-        validator: (String? value) => CustomValidator.password(value),
+        validator: (String? value) => widget.validator != null
+            ? widget.validator!(value)
+            : CustomValidator.password(value),
         style: const TextStyle(fontSize: 14),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(left: 10, top: 12),

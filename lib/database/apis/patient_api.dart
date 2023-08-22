@@ -20,11 +20,16 @@ class PatientAPI {
   Future<Patient?> patient(String value) async {
     try {
       final Document doc = await _collection.document(value).get();
-      final Patient pat = Patient.fromMap(doc.map);
-      LocalPatient().add(pat);
-      return pat;
+      return Patient.fromMap(doc.map);
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<void> loadAll() async {
+    final List<Document> docs = await _collection.get();
+    for (Document element in docs) {
+      Patient.fromMap(element.map);
     }
   }
 }

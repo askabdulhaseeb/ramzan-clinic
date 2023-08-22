@@ -3,8 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../database/local/local_user.dart';
 import '../../enums/day.dart';
 import '../../functions/time_fun.dart';
-import '../core/department.dart';
-import '../core/address.dart';
 import '../core/routine.dart';
 part 'app_user.g.dart';
 
@@ -15,25 +13,21 @@ class AppUser {
     required this.name,
     required this.email,
     required this.imageURL,
-    required this.department,
+    required this.departmentID,
     required this.phoneNumber,
     required this.jobDescription,
     required this.salary,
-    required this.address,
+    this.addressID,
     List<Routine>? routine,
     this.password = '',
     this.isAdmin = false,
-    this.isRegistered = true,
+    this.isRegistered = false,
     String? fullAddress,
     DateTime? registerDate,
     DateTime? lastUpdate,
   })  : registerDate = registerDate ?? DateTime.now(),
         lastUpdate = lastUpdate ?? DateTime.now(),
-        fullAddress = fullAddress == null
-            ? address.toString()
-            : fullAddress.isEmpty
-                ? fullAddress.toString()
-                : fullAddress,
+        fullAddress = fullAddress ?? '',
         routine = routine ??
             <Routine>[
               Routine(day: Day.monday),
@@ -56,7 +50,7 @@ class AppUser {
   @HiveField(4)
   String imageURL;
   @HiveField(5)
-  Department department;
+  String departmentID;
   @HiveField(6)
   List<String> phoneNumber;
   @HiveField(7)
@@ -64,7 +58,7 @@ class AppUser {
   @HiveField(8)
   double salary;
   @HiveField(9)
-  Address address;
+  String? addressID;
   @HiveField(10)
   String fullAddress;
   @HiveField(11)
@@ -85,11 +79,11 @@ class AppUser {
       'email': email,
       'password': password,
       'image_url': imageURL,
-      'department': department.toMap(),
+      'department_id': departmentID,
       'phone_number': phoneNumber,
       'job_description': jobDescription,
       'salary': salary,
-      'address': address.toMap(),
+      'address_id': addressID,
       'full_address': fullAddress,
       'routine': routine.map((Routine e) => e.toMap()).toList(),
       'register_date': registerDate,
@@ -108,12 +102,12 @@ class AppUser {
       password: map['password'] ?? '',
       isAdmin: map['is_admin'] ?? false,
       imageURL: map['image_url'] ?? '',
-      department: Department.fromMap(map['department'] as Map<String, dynamic>),
+      departmentID: map['department_id'],
       phoneNumber: List<String>.from(map['phone_number'] ?? <String>[]),
       jobDescription: map['job_description'] ?? '',
       fullAddress: map['full_address'] ?? '',
       salary: map['salary'] ?? 0.0,
-      address: Address.fromMap(map['address'] as Map<String, dynamic>),
+      addressID: map['address_id'] ?? '',
       routine: List<Routine>.from(
         (map['routine'] as List<dynamic>).map<Routine>(
             (dynamic x) => Routine.fromMap(x as Map<String, dynamic>)),

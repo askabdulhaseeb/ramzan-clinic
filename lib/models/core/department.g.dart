@@ -22,13 +22,14 @@ class DepartmentAdapter extends TypeAdapter<Department> {
       registerBy: fields[2] == null ? 'null' : fields[2] as String?,
       registerDate: fields[3] as DateTime?,
       lastUpdate: fields[4] as DateTime?,
+      isActive: fields[5] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Department obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.departmentID)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class DepartmentAdapter extends TypeAdapter<Department> {
       ..writeByte(3)
       ..write(obj.registerDate)
       ..writeByte(4)
-      ..write(obj.lastUpdate);
+      ..write(obj.lastUpdate)
+      ..writeByte(5)
+      ..write(obj.isActive);
   }
 
   @override

@@ -13,21 +13,24 @@ class UserAPI {
   final CollectionReference _collection =
       Firestore.instance.collection('users');
 
-  Future<void> create(AppUser value) async {
+  Future<bool> create(AppUser value) async {
     try {
+      final List<Document> doc =
+          await _collection.where('email', isEqualTo: value.email).get();
+      if (doc.isNotEmpty) return false;
       await _collection.document(value.uid).set(value.toMap());
       LocalUser().add(value);
+      return true;
     } catch (e) {
       debugPrint(e.toString());
     }
+    return false;
   }
 
   Future<AppUser?> user(String value) async {
     try {
       final Document doc = await _collection.document(value).get();
-      final AppUser user = AppUser.fromMap(doc.map);
-      LocalUser().add(user);
-      return user;
+      return AppUser.fromMap(doc.map);
     } catch (e) {
       return null;
     }
@@ -56,6 +59,13 @@ class UserAPI {
       return url;
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<void> loadAll() async {
+    final List<Document> docs = await _collection.get();
+    for (Document element in docs) {
+      AppUser.fromMap(element.map);
     }
   }
 }

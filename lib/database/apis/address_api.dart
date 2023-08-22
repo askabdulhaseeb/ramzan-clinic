@@ -20,11 +20,16 @@ class AddressAPI {
   Future<Address?> address(String value) async {
     try {
       final Document doc = await _collection.document(value).get();
-      final Address add = Address.fromMap(doc.map);
-      LocalAddress().add(add);
-      return add;
+      return Address.fromMap(doc.map);
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<void> loadAll() async {
+    final List<Document> docs = await _collection.get();
+    for (Document element in docs) {
+      Address.fromMap(element.map);
     }
   }
 }

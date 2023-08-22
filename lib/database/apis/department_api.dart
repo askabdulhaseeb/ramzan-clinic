@@ -20,11 +20,16 @@ class DepartmentAPI {
   Future<Department?> department(String value) async {
     try {
       final Document doc = await _collection.document(value).get();
-      final Department depart = Department.fromMap(doc.map);
-      LocalDepartment().add(depart);
-      return depart;
+      return Department.fromMap(doc.map);
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<void> loadAll() async {
+    final List<Document> docs = await _collection.get();
+    for (Document element in docs) {
+      Department.fromMap(element.map);
     }
   }
 }

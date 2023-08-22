@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 import '../../database/apis/user_api.dart';
 import '../../enums/profile_state.dart';
+import '../../functions/id_generator.dart';
 import '../../functions/picker_fun.dart';
 import '../../models/core/department.dart';
+import '../../models/user/app_user.dart';
 import '../../utilities/custom_validator.dart';
 import '../../utilities/utilities.dart';
 import '../../widgets/custom/custom_appbar.dart';
@@ -26,9 +28,13 @@ class _AddUserScreenState extends State<AddUserScreen> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _phoneNumber = TextEditingController();
   final TextEditingController _email = TextEditingController();
+  final TextEditingController _fillAddress = TextEditingController();
+  final TextEditingController _job = TextEditingController();
+  final TextEditingController _salary = TextEditingController();
+
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
-  final TextEditingController _fillAddress = TextEditingController();
+  Department? selectedDepartment;
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   List<String> phoneNumbers = <String>[];
   bool isLoading = false;
@@ -94,11 +100,26 @@ class _AddUserScreenState extends State<AddUserScreen> {
                       const SizedBox(width: 10),
                       Expanded(
                         child: DepartmentDropdownWidget(
-                          onChanged: (Department value) {},
+                          selectedDepartment: selectedDepartment,
+                          onChanged: (Department value) {
+                            selectedDepartment = value;
+                          },
                         ),
                       ),
                     ],
                   ),
+                ),
+                CustomTextFormField(
+                  controller: _job,
+                  hint: 'Job Description',
+                  textCapitalization: TextCapitalization.sentences,
+                  validator: (String? value) => null,
+                ),
+                CustomTextFormField(
+                  controller: _salary,
+                  hint: 'Salary',
+                  keyboardType: TextInputType.number,
+                  validator: (String? value) => null,
                 ),
                 Container(
                   width: Utilities.maxWidth,
@@ -183,6 +204,8 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 PasswordTextFormField(controller: _password),
                 PasswordTextFormField(
                   controller: _confirmPassword,
+                  validator: (String? value) =>
+                      _password.text == value ? null : 'Password Not Match',
                   hint: 'Confirm Password',
                 ),
                 const SizedBox(height: 8),
@@ -192,6 +215,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
                   isLoading: isLoading,
                   onTap: onSignUp,
                 ),
+                const SizedBox(height: 60),
               ],
             ),
           ),
@@ -201,10 +225,51 @@ class _AddUserScreenState extends State<AddUserScreen> {
   }
 
   Future<void> addingMember() async {
-    if (true) {
-      if (!mounted) return;
-      CustomToast.errorSnackBar(context: context, text: 'User Not Found');
+    if (selectedDepartment == null) {
+      CustomToast.errorSnackBar(context: context, text: 'Select Department');
+      return;
     }
+    String url = '';
+    if (file != null) {
+      url = await UserAPI().uploadProfilePhoto(file: file!) ?? '';
+    }
+    final AppUser user = AppUser(
+      uid: IdGenerator.dummyUser(_email.text),
+      name: _name.text,
+      email: _email.text,
+      imageURL: url,
+      departmentID: selectedDepartment?.departmentID ?? '',
+      phoneNumber: phoneNumbers,
+      jobDescription: _job.text,
+      salary: double.tryParse(_salary.text) ?? 0.0,
+      fullAddress: _fillAddress.text,
+      isRegistered: false,
+      password: _password.text,
+    );
+    final bool added = await UserAPI().create(user);
+    if (!mounted) return;
+    if (added) {
+      CustomToast.successSnackBar(
+          context: context, text: '${_name.text} Added');
+      _reset();
+    } else {
+      CustomToast.errorSnackBar(context: context, text: 'User Already Exist');
+    }
+  }
+
+  _reset() {
+    _name.clear();
+    _email.clear();
+    file = null;
+    selectedDepartment = null;
+    phoneNumbers.clear();
+    _job.clear();
+    _salary.clear();
+    _fillAddress.clear();
+    _password.clear();
+    _confirmPassword.clear();
+    statusText = const Text('');
+    setState(() {});
   }
 
   Future<void> onSignUp() async {
