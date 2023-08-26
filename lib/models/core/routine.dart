@@ -7,9 +7,9 @@ part 'routine.g.dart';
 class Routine {
   Routine({
     required this.day,
-    this.staringHour = 0,
+    this.staringHour = 9,
     this.staringMinute = 0,
-    this.endingHour = 0,
+    this.endingHour = 9,
     this.endingMinute = 0,
   });
 
@@ -44,4 +44,7 @@ class Routine {
       endingMinute: map['ending_minute'] ?? 0,
     );
   }
+  @override
+  String toString() =>
+      '${day.short} - $staringHour:$staringMinute , $endingHour:$endingMinute';
 }

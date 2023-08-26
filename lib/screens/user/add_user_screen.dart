@@ -2,10 +2,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import '../../database/apis/user_api.dart';
+import '../../enums/day.dart';
 import '../../enums/profile_state.dart';
 import '../../functions/id_generator.dart';
 import '../../functions/picker_fun.dart';
+import '../../functions/time_fun.dart';
 import '../../models/core/department.dart';
+import '../../models/core/routine.dart';
 import '../../models/user/app_user.dart';
 import '../../utilities/custom_validator.dart';
 import '../../utilities/utilities.dart';
@@ -31,9 +34,26 @@ class _AddUserScreenState extends State<AddUserScreen> {
   final TextEditingController _fillAddress = TextEditingController();
   final TextEditingController _job = TextEditingController();
   final TextEditingController _salary = TextEditingController();
-
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
+  final List<Day> availableDays = <Day>[
+    Day.monday,
+    Day.tuesday,
+    Day.wednesday,
+    Day.thursday,
+    Day.friday,
+    Day.saturday,
+    Day.sunday,
+  ];
+  final List<Routine> routines = <Routine>[
+    Routine(day: Day.monday),
+    Routine(day: Day.tuesday),
+    Routine(day: Day.wednesday),
+    Routine(day: Day.thursday),
+    Routine(day: Day.friday),
+    Routine(day: Day.saturday),
+    Routine(day: Day.sunday),
+  ];
   Department? selectedDepartment;
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   List<String> phoneNumbers = <String>[];
@@ -193,6 +213,120 @@ class _AddUserScreenState extends State<AddUserScreen> {
                     ],
                   ),
                 ),
+                Container(
+                  width: Utilities.maxWidth,
+                  margin: const EdgeInsets.symmetric(vertical: 6),
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: ListView.builder(
+                      primary: false,
+                      shrinkWrap: true,
+                      itemCount: routines.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final Routine routine = routines[index];
+                        debugPrint(routine.toString());
+                        final bool isSelected =
+                            availableDays.contains(routine.day);
+                        return Container(
+                          margin: const EdgeInsets.all(6),
+                          padding: const EdgeInsets.symmetric(vertical: 6),
+                          decoration: BoxDecoration(
+                            border: Border.all(),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Checkbox(
+                                value: isSelected,
+                                onChanged: (_) => setState(() {
+                                  isSelected
+                                      ? availableDays.remove(routine.day)
+                                      : availableDays.add(routine.day);
+                                }),
+                              ),
+                              Expanded(
+                                  child: Text(
+                                routine.day.title,
+                                style: TextStyle(
+                                    color: isSelected ? null : Colors.grey),
+                              )),
+                              Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        'Start ',
+                                        style: TextStyle(
+                                            color: isSelected
+                                                ? null
+                                                : Colors.grey),
+                                      ),
+                                      _TextInput(
+                                        isMint: false,
+                                        initValue: TimeFun.twoDigit(
+                                            routine.staringHour),
+                                        onChanged: (String p0) {
+                                          routine.staringHour =
+                                              int.tryParse(p0.toString()) ?? 9;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 2),
+                                  Row(
+                                    children: <Widget>[
+                                      Text(
+                                        '  End ',
+                                        style: TextStyle(
+                                            color: isSelected
+                                                ? null
+                                                : Colors.grey),
+                                      ),
+                                      _TextInput(
+                                        isMint: false,
+                                        initValue: TimeFun.twoDigit(
+                                            routine.endingHour),
+                                        onChanged: (String p0) {
+                                          routine.endingHour =
+                                              int.tryParse(p0.toString()) ?? 9;
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  _TextInput(
+                                    isMint: true,
+                                    initValue:
+                                        TimeFun.twoDigit(routine.staringMinute),
+                                    onChanged: (String p0) {
+                                      routine.staringMinute =
+                                          int.tryParse(p0.toString()) ?? 9;
+                                    },
+                                  ),
+                                  const SizedBox(width: 2, height: 2),
+                                  _TextInput(
+                                    isMint: true,
+                                    initValue:
+                                        TimeFun.twoDigit(routine.endingMinute),
+                                    onChanged: (String p0) {
+                                      routine.endingMinute =
+                                          int.tryParse(p0.toString()) ?? 9;
+                                    },
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 6),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
                 CustomTextFormField(
                   controller: _fillAddress,
                   hint: 'Full Address',
@@ -211,9 +345,9 @@ class _AddUserScreenState extends State<AddUserScreen> {
                 const SizedBox(height: 8),
                 statusText,
                 CustomElevatedButton(
-                  title: 'Sign In',
+                  title: 'Add',
                   isLoading: isLoading,
-                  onTap: onSignUp,
+                  onTap: onAdd,
                 ),
                 const SizedBox(height: 60),
               ],
@@ -240,6 +374,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
       imageURL: url,
       departmentID: selectedDepartment?.departmentID ?? '',
       phoneNumber: phoneNumbers,
+      routine: routines,
       jobDescription: _job.text,
       salary: double.tryParse(_salary.text) ?? 0.0,
       fullAddress: _fillAddress.text,
@@ -272,7 +407,7 @@ class _AddUserScreenState extends State<AddUserScreen> {
     setState(() {});
   }
 
-  Future<void> onSignUp() async {
+  Future<void> onAdd() async {
     if (!_key.currentState!.validate()) return;
     setState(() {
       isLoading = true;
@@ -311,5 +446,40 @@ class _AddUserScreenState extends State<AddUserScreen> {
     setState(() {
       isLoading = false;
     });
+  }
+}
+
+class _TextInput extends StatelessWidget {
+  const _TextInput({
+    required this.isMint,
+    required this.initValue,
+    required this.onChanged,
+  });
+  final bool isMint;
+  final String initValue;
+  final void Function(String)? onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2),
+      child: SizedBox(
+        width: 54,
+        child: TextFormField(
+          initialValue: initValue,
+          onChanged: onChanged,
+          textAlign: TextAlign.center,
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: 4,
+              horizontal: 12,
+            ),
+            isDense: true,
+            hintText: isMint ? 'MM' : 'HH',
+            border: const OutlineInputBorder(),
+          ),
+        ),
+      ),
+    );
   }
 }

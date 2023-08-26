@@ -4,22 +4,23 @@ part 'day.g.dart';
 @HiveType(typeId: 211)
 enum Day {
   @HiveField(0)
-  monday('Monday', 'monday'),
+  monday('Monday', 'Mon', 'monday'),
   @HiveField(1)
-  tuesday('Tuesday', 'tuesday'),
+  tuesday('Tuesday', 'Tue', 'tuesday'),
   @HiveField(2)
-  wednesday('Wednesday', 'wednesday'),
+  wednesday('Wednesday', 'Wed', 'wednesday'),
   @HiveField(3)
-  thursday('Thursday', 'thursday'),
+  thursday('Thursday', 'Thu', 'thursday'),
   @HiveField(4)
-  friday('Friday', 'friday'),
+  friday('Friday', 'Fri', 'friday'),
   @HiveField(5)
-  saturday('Saturday', 'saturday'),
+  saturday('Saturday', 'Sat', 'saturday'),
   @HiveField(6)
-  sunday('Sunday', 'sunday');
+  sunday('Sunday', 'Sun', 'sunday');
 
-  const Day(this.title, this.json);
+  const Day(this.title, this.short, this.json);
   final String title;
+  final String short;
   final String json;
 }
 
