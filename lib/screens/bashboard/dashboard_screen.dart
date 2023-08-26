@@ -8,6 +8,7 @@ import '../../database/apis/department_api.dart';
 import '../../database/apis/user_api.dart';
 import '../../enums/procigar_type.dart';
 import '../address/add_address_screen.dart';
+import '../case/case_screen.dart';
 import '../department/add_department_screen.dart';
 import '../procigar/add_procigar_screen.dart';
 import '../user/add_user_screen.dart';
@@ -65,6 +66,11 @@ class DashboardScreen extends StatelessWidget {
                         const AddProcigarScreen(type: ProcigarType.procigar),
                   )),
                   child: const Text('Add Procigar'),
+                ),
+                TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(CaseScreen.routeName),
+                  child: const Text('Case'),
                 ),
                 TextButton(
                   onPressed: () => AuthAPI().signOut(),
