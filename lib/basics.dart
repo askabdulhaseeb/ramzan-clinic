@@ -1,11 +1,19 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
+import 'provider/case_provider.dart';
 import 'screens/address/add_address_screen.dart';
 import 'screens/auth/signin_screen.dart';
 import 'screens/case/case_screen.dart';
 import 'screens/department/add_department_screen.dart';
 import 'screens/user/add_user_screen.dart';
 import 'screens/bashboard/dashboard_screen.dart';
+
+final List<SingleChildWidget> myProviders = <SingleChildWidget>[
+  ChangeNotifierProvider<CaseProvider>(
+      create: (BuildContext context) => CaseProvider()),
+];
 
 final Map<String, WidgetBuilder> myRoutes = <String, WidgetBuilder>{
   SignInScreen.routeName: (_) => const SignInScreen(),

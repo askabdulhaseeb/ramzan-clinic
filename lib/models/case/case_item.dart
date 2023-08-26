@@ -1,3 +1,7 @@
+import 'package:hive_flutter/hive_flutter.dart';
+part 'case_item.g.dart';
+
+@HiveType(typeId: 52)
 class CaseItem {
   CaseItem({
     required this.id,
@@ -5,17 +9,18 @@ class CaseItem {
     required this.price,
     required this.quantity,
     required this.discountInPercent,
-    required this.discountInRupees,
-    required this.total,
   });
 
+  @HiveField(0)
   final String id;
+  @HiveField(1)
   final bool isTest;
+  @HiveField(2)
   final double price;
+  @HiveField(3)
   final int quantity;
+  @HiveField(4)
   final double discountInPercent;
-  final double discountInRupees;
-  final double total;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -37,8 +42,9 @@ class CaseItem {
       price: map['price'] ?? 0.0,
       quantity: map['quantity'] ?? 0,
       discountInPercent: map['discount_in_percent'] ?? 0.0,
-      discountInRupees: map['discount_in_rupees'] ?? 0.0,
-      total: map['total'] ?? 0.0,
     );
   }
+
+  double get total => (price * quantity) - discountInRupees;
+  double get discountInRupees => (price * quantity) * (discountInPercent / 100);
 }

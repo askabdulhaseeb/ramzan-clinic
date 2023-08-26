@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'basics.dart';
 import 'database/apis/auth_api.dart';
@@ -24,22 +25,25 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Ramzan Clinic',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return MultiProvider(
+      providers: myProviders,
+      child: MaterialApp(
+        title: 'Ramzan Clinic',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: StreamBuilder<bool>(
+          stream: AuthAPI().signInState,
+          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+            log('Login State: ${snapshot.connectionState.name}');
+            return snapshot.data ?? false
+                ? const DashboardScreen()
+                : const SignInScreen();
+          },
+        ),
+        routes: myRoutes,
       ),
-      home: StreamBuilder<bool>(
-        stream: AuthAPI().signInState,
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          log('Login State: ${snapshot.connectionState.name}');
-          return snapshot.data ?? false
-              ? const DashboardScreen()
-              : const SignInScreen();
-        },
-      ),
-      routes: myRoutes,
     );
   }
 }
@@ -53,3 +57,4 @@ class MyApp extends StatelessWidget {
 // User 21...29
 // Test And Procigar 31...39
 // Procigar 41...49
+// Case 51...59

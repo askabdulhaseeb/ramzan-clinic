@@ -5,6 +5,9 @@ import 'package:path_provider/path_provider.dart';
 import '../../enums/day.dart';
 import '../../enums/gender.dart';
 import '../../enums/procigar_type.dart';
+import '../../models/case/case.dart';
+import '../../models/case/case_item.dart';
+import '../../models/case/counter.dart';
 import '../../models/core/address.dart';
 import '../../models/core/department.dart';
 import '../../models/core/routine.dart';
@@ -35,6 +38,13 @@ class LocalDB {
     // PROCIGER 31...39
     Hive.registerAdapter(ProcigarAdapter()); // 31
     Hive.registerAdapter(ProcigarTypeAdapter()); // 32
+    
+    // PROCIGER 51...59
+    Hive.registerAdapter(CaseAdapter()); // 51
+    Hive.registerAdapter(CaseItemAdapter()); // 52
+    Hive.registerAdapter(CounterAdapter()); // 53
+
+    //
 
     // CORE 200...210
     Hive.registerAdapter(AddressAdapter()); // 200
