@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 
 import '../../database/apis/auth_api.dart';
+import '../../database/local/local_department.dart';
 import '../../functions/id_generator.dart';
 import '../../functions/time_fun.dart';
 part 'department.g.dart';
@@ -45,7 +46,7 @@ class Department {
 
   // ignore: sort_constructors_first
   factory Department.fromMap(Map<String, dynamic> map) {
-    return Department(
+    final Department depart = Department(
       departmentID: map['department_id'] ?? '',
       title: map['title'] ?? '',
       registerBy: map['register_by'] ?? '',
@@ -53,5 +54,7 @@ class Department {
       lastUpdate: TimeFun.parseTime(map['last_update']),
       isActive: map['is_active'] ?? false,
     );
+    LocalDepartment().add(depart);
+    return depart;
   }
 }

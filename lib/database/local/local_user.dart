@@ -34,6 +34,14 @@ class LocalUser {
     return user ?? await _load(uid);
   }
 
+  List<AppUser> userByDepartment(String? value) {
+    return value == null
+        ? <AppUser>[]
+        : _box.values
+            .where((AppUser element) => element.departmentID == value)
+            .toList();
+  }
+
   Future<AppUser> _load(String uid) async {
     return await UserAPI().user(uid) ?? _null;
   }

@@ -22,16 +22,7 @@ class _DepartmentDropdownWidgetState extends State<DepartmentDropdownWidget> {
   Department? selectedDepartment;
   @override
   void initState() {
-    final List<Department> result = LocalDepartment().departments;
-    if (result.isEmpty) {
-      result.add(Department(title: 'Doctor', departmentID: 'dd'));
-      result.add(Department(title: 'Heler', departmentID: 'he'));
-      result.add(Department(title: 'Emplyee', departmentID: 'em'));
-      result.add(Department(title: 'Worker', departmentID: 'wo'));
-    }
-    result.sort((Department a, Department b) =>
-        a.title.toLowerCase().compareTo(b.title.toLowerCase()));
-    departments = result;
+    departments = LocalDepartment().departments();
     selectedDepartment = widget.selectedDepartment;
     super.initState();
   }

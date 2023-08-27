@@ -18,6 +18,7 @@ class DashboardScreen extends StatelessWidget {
   static const String routeName = '/dashboard';
 
   _init() async {
+    log('init Start');
     await UserAPI().loadAll();
     await AddressAPI().loadAll();
     await DepartmentAPI().loadAll();

@@ -13,37 +13,43 @@ class CaseProvider extends ChangeNotifier {
     reset();
   }
 
-  void onDepartmentUpdate(Department value) {
+  void onDepartmentUpdate(Department? value) {
     _department = value;
     notifyListeners();
   }
 
-  void onPatientUpdate(Patient value) {
+  void onPatientUpdate(Patient? value) {
+    if (value == null) return;
     _patient = value;
     notifyListeners();
   }
 
-  void onDoctorUpdate(AppUser value) {
+  void onDoctorUpdate(AppUser? value) {
+    if (value == null) return;
     _doctor = value;
     notifyListeners();
   }
 
-  void onAddItem(CaseItem value) {
+  void onAddItem(CaseItem? value) {
+    if (value == null) return;
     _items.add(value);
     _calculation();
   }
 
-  void onRemoveItem(CaseItem value) {
+  void onRemoveItem(CaseItem? value) {
+    if (value == null) return;
     _items.remove(value);
     _calculation();
   }
 
-  void onDiscountInPercent(String value) {
+  void onDiscountInPercent(String? value) {
+    if (value == null) return;
     _discountInPercent = double.tryParse(value) ?? 0.0;
     _onDiscountInRupees();
   }
 
-  void onPaidAmountUpdate(String value) {
+  void onPaidAmountUpdate(String? value) {
+    if (value == null) return;
     _paidAmount = double.tryParse(value) ?? 0.0;
     notifyListeners();
   }

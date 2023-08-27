@@ -35,7 +35,12 @@ class LocalDepartment {
     return user ?? await _load(id);
   }
 
-  List<Department> get departments => _box.values.toList();
+  List<Department> departments() {
+    final List<Department> depart = _box.values.toList();
+    depart.sort((Department a, Department b) =>
+        a.title.toLowerCase().compareTo(b.title.toLowerCase()));
+    return depart;
+  }
 
   Future<Department> _load(String id) async {
     return await DepartmentAPI().department(id) ?? _null;

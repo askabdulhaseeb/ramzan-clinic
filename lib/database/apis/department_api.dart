@@ -31,5 +31,6 @@ class DepartmentAPI {
     for (Document element in docs) {
       Department.fromMap(element.map);
     }
+    debugPrint('Init Depatments: ${docs.length}');
   }
 }

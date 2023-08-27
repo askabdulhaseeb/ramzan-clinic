@@ -31,5 +31,6 @@ class AddressAPI {
     for (Document element in docs) {
       Address.fromMap(element.map);
     }
+    debugPrint('Init Address: ${docs.length}');
   }
 }

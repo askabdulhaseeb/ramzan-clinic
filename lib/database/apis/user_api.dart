@@ -63,9 +63,14 @@ class UserAPI {
   }
 
   Future<void> loadAll() async {
-    final List<Document> docs = await _collection.get();
-    for (Document element in docs) {
-      AppUser.fromMap(element.map);
+    try {
+      final List<Document> docs = await _collection.get();
+      for (Document element in docs) {
+        AppUser.fromMap(element.map);
+      }
+      debugPrint('Init user: ${docs.length}');
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }

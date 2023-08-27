@@ -36,6 +36,16 @@ class LocalPatient {
     return user ?? await _load(id);
   }
 
+  List<Patient> search(String value) {
+    value = value.toLowerCase();
+    return _box.values
+        .where((Patient element) =>
+            element.name.toLowerCase().contains(value) ||
+            element.cnic.contains(value) ||
+            '${element.name} ${element.lastName}'.toLowerCase().contains(value))
+        .toList();
+  }
+
   Future<Patient> _load(String id) async {
     return await PatientAPI().patient(id) ?? _null;
   }

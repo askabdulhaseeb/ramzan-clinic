@@ -72,7 +72,7 @@ class Case {
       'payable': payable,
       'paid_amount': paidAmount,
       'reigster_date': reigsterDate,
-      'last_update': lastUpdate,
+      'last_update': DateTime.now(),
       'is_live': true,
     };
   }
