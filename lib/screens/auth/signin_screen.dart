@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../../database/apis/auth_api.dart';
@@ -16,8 +17,10 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
-  final TextEditingController _email = TextEditingController();
-  final TextEditingController _password = TextEditingController();
+  final TextEditingController _email =
+      TextEditingController(text: kDebugMode ? 'test@test.com' : '');
+  final TextEditingController _password =
+      TextEditingController(text: kDebugMode ? '1234567890' : '');
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   bool isLoading = false;
   @override

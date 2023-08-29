@@ -13,6 +13,15 @@ class CaseProvider extends ChangeNotifier {
     reset();
   }
 
+  void reset() {
+    // _tokenID
+    _patient = null;
+    _items.clear();
+    onDiscountInPercent('0');
+    onPaidAmountUpdate('0');
+    _calculation();
+  }
+
   void onDepartmentUpdate(Department? value) {
     _department = value;
     notifyListeners();
@@ -67,15 +76,6 @@ class CaseProvider extends ChangeNotifier {
     amount -= _discountInRupees;
     _payable = amount;
     notifyListeners();
-  }
-
-  void reset() {
-    // _tokenID
-    _patient = null;
-    _items.clear();
-    onDiscountInPercent('0');
-    onPaidAmountUpdate('0');
-    _calculation();
   }
 
   // GETTERS

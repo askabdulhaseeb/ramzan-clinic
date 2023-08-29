@@ -83,8 +83,8 @@ class Patient {
   }
 
   static String _encryptNumber(String value) {
-    return value.length > 5
-        ? value.trim().replaceRange(5, null, '********')
+    return value.length > 10
+        ? value.trim().replaceRange(10, null, '***')
         : value;
   }
 

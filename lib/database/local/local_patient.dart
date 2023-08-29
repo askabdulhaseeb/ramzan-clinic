@@ -39,12 +39,15 @@ class LocalPatient {
     if (value.isEmpty) return _box.values.toList();
     value = value.toLowerCase();
     if (value[0] == '0') value.replaceFirst('0', '');
-    return _box.values
+    final List<Patient> result = _box.values
         .where((Patient element) =>
             element.name.toLowerCase().contains(value) ||
             element.cnic.contains(value) ||
             '${element.name} ${element.lastName}'.toLowerCase().contains(value))
         .toList();
+    final List<Patient> res =
+        result.getRange(0, result.length > 2 ? 2 : result.length).toList();
+    return res;
   }
 
   Future<Patient> _load(String id) async {

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../database/apis/patient_api.dart';
 import '../../enums/gender.dart';
 import '../../functions/time_fun.dart';
 import '../../models/core/address.dart';
 import '../../models/patient/patient.dart';
+import '../../provider/case_provider.dart';
 import '../../utilities/custom_validator.dart';
 import '../../utilities/utilities.dart';
 import '../../widgets/address/address_bottom_sheet.dart';
@@ -170,8 +172,8 @@ class _AddPatientScreenState extends State<AddPatientScreen> {
     } catch (e) {
       debugPrint(e.toString());
     }
-    setState(() {
-      isLoading = false;
-    });
+    if (!mounted) return;
+    Provider.of<CaseProvider>(context, listen: false).onPatientUpdate(patient);
+    Navigator.of(context).pop();
   }
 }
