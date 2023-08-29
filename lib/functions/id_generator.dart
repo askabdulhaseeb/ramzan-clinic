@@ -4,15 +4,15 @@ import '../database/apis/auth_api.dart';
 
 class IdGenerator {
   static String dummyUser(String name) {
-    return '${_trim(name).toLowerCase()}${generateRandomString()}';
+    return '${_trim(name)}${generateRandomString()}';
   }
 
   static String patientID(String name) {
-    return '${_trim(name).toLowerCase()}${generateRandomString()}';
+    return '${_trim(name)}${generateRandomString()}';
   }
 
-  static String provigarID(String name) {
-    return '${_trim(name).toLowerCase()}${generateRandomString()}';
+  static String procigarID(String name) {
+    return '${_trim(name)}${generateRandomString()}';
   }
 
   static String department(String title) {
@@ -30,10 +30,10 @@ class IdGenerator {
     const String number = '123456789';
     final String possibleChar =
         letterLowerCase + AuthAPI.uid + letterUpperCase + number;
-    return List<String>.generate(length, (int index) {
+    return _trim(List<String>.generate(length, (int index) {
       final int indexRandom = Random.secure().nextInt(possibleChar.length);
       return possibleChar[indexRandom];
-    }).join('').trim();
+    }).join('').trim());
   }
 
   static String placeholder(String value) {
@@ -46,6 +46,6 @@ class IdGenerator {
   }
 
   static String _trim(String value) => value.contains(' ')
-      ? value.trim().toLowerCase()
-      : value.trim().toLowerCase().replaceAll(' ', '-');
+      ? value.trim().toLowerCase().replaceAll(' ', '-')
+      : value.trim().toLowerCase();
 }

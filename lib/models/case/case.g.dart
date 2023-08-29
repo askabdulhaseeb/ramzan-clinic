@@ -29,9 +29,9 @@ class CaseAdapter extends TypeAdapter<Case> {
       discountInRupees: fields[8] as double,
       payable: fields[9] as double,
       paidAmount: fields[10] as double,
-      reigsterDate: fields[11] as DateTime,
-      lastUpdate: fields[12] as DateTime,
-      isLive: fields[13] as bool,
+      isLive: fields[13] == null ? false : fields[13] as bool,
+      reigsterDate: fields[11] as DateTime?,
+      lastUpdate: fields[12] as DateTime?,
     );
   }
 

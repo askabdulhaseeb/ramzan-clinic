@@ -16,11 +16,13 @@ class CustomTextFormField extends StatefulWidget {
     this.validator,
     this.initialValue,
     this.hint = '',
+    this.label,
     this.color,
     this.contentPadding,
     this.minLines = 1,
     this.maxLines = 1,
     this.maxLength,
+    this.sufficIcon,
     this.showSuffixIcon = true,
     this.readOnly = false,
     this.autoFocus = false,
@@ -39,6 +41,7 @@ class CustomTextFormField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final TextCapitalization? textCapitalization;
   final void Function(String)? onChanged;
+  final Widget? sufficIcon;
   final bool showSuffixIcon;
   final String? Function(String? value)? validator;
   final void Function(String)? onFieldSubmitted;
@@ -50,6 +53,7 @@ class CustomTextFormField extends StatefulWidget {
   final Color? color;
   final String? initialValue;
   final String? hint;
+  final String? label;
   final bool readOnly;
   final bool autoFocus;
   final TextAlign textAlign;
@@ -114,18 +118,21 @@ class CustomTextFormFieldState extends State<CustomTextFormField> {
           fillColor:
               widget.color ?? Theme.of(context).textTheme.bodyLarge!.color!,
           hintText: widget.hint,
-          hintStyle: TextStyle(color: Colors.grey.shade400),
-          suffixIcon: (widget._controller!.text.isEmpty ||
-                  !widget.showSuffixIcon ||
-                  widget.showSuffixIcon == false)
-              ? null
-              : IconButton(
-                  splashRadius: 16,
-                  onPressed: () => setState(() {
-                    widget._controller!.clear();
-                  }),
-                  icon: const Icon(CupertinoIcons.clear, size: 18),
-                ),
+          label: Text(widget.label ?? widget.hint ?? ''),
+          hintStyle: const TextStyle(color: Colors.grey),
+          labelStyle: const TextStyle(color: Colors.grey),
+          suffixIcon: widget.sufficIcon ??
+              ((widget._controller!.text.isEmpty ||
+                      !widget.showSuffixIcon ||
+                      widget.showSuffixIcon == false)
+                  ? null
+                  : IconButton(
+                      splashRadius: 16,
+                      onPressed: () => setState(() {
+                        widget._controller!.clear();
+                      }),
+                      icon: const Icon(CupertinoIcons.clear, size: 18),
+                    )),
           focusColor: Theme.of(context).primaryColor,
           border: widget.border ?? border,
         ),

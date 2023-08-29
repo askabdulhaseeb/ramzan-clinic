@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../database/local/local_patient.dart';
 import '../../models/patient/patient.dart';
+import '../../screens/patient/add_patient_screen.dart';
 
 class CasePatientDisplayWidget extends StatefulWidget {
   const CasePatientDisplayWidget({super.key});
@@ -57,7 +58,8 @@ class _CasePatientDisplayWidgetState extends State<CasePatientDisplayWidget> {
               'If not register already',
               style: TextStyle(color: Colors.grey),
             ),
-            onTap: () {},
+            onTap: () =>
+                Navigator.of(context).pushNamed(AddPatientScreen.routeName),
           ),
         ],
       ),

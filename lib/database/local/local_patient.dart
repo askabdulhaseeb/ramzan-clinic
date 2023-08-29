@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../enums/gender.dart';
-import '../../models/core/address.dart';
 import '../../models/patient/patient.dart';
 import '../apis/patient_api.dart';
 
@@ -37,7 +36,9 @@ class LocalPatient {
   }
 
   List<Patient> search(String value) {
+    if (value.isEmpty) return _box.values.toList();
     value = value.toLowerCase();
+    if (value[0] == '0') value.replaceFirst('0', '');
     return _box.values
         .where((Patient element) =>
             element.name.toLowerCase().contains(value) ||
@@ -54,9 +55,9 @@ class LocalPatient {
         name: 'null',
         lastName: 'null',
         gender: Gender.other,
+        dob: DateTime.now(),
         cnic: 'null',
-        address: Address(
-            province: 'null', district: 'null', city: 'null', town: 'null'),
+        address: '',
         phoneNumber: 'null',
       );
 }

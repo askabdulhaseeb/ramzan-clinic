@@ -28,7 +28,7 @@ class CaseItemAdapter extends TypeAdapter<CaseItem> {
   @override
   void write(BinaryWriter writer, CaseItem obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)

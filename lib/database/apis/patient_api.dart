@@ -11,10 +11,10 @@ class PatientAPI {
   Future<void> create(Patient value) async {
     try {
       await _collection.document(value.patientID).set(value.toMap());
-      LocalPatient().add(value);
     } catch (e) {
       debugPrint(e.toString());
     }
+    LocalPatient().add(value);
   }
 
   Future<Patient?> patient(String value) async {

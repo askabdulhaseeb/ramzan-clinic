@@ -35,10 +35,12 @@ class LocalAddress {
   }
 
   List<Address> searchAddress(String value) {
-    return _box.values
-        .where((Address element) =>
-            element.string.toLowerCase().contains(value.toLowerCase()))
-        .toList();
+    return value.isEmpty
+        ? <Address>[]
+        : _box.values
+            .where((Address element) =>
+                element.string.toLowerCase().contains(value.toLowerCase()))
+            .toList();
   }
 
   Future<Address> _load(String id) async {

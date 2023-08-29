@@ -19,6 +19,7 @@ class Address extends HiveObject {
     String? country,
     DateTime? registerDate,
     DateTime? lastUpdate,
+    this.isLive = false,
   })  : addressID = addressID ?? IdGenerator.address(town),
         country = country ?? 'Pakistan',
         string = string ?? '$town, $city, $district, $province, $country',
@@ -46,6 +47,8 @@ class Address extends HiveObject {
   final String addBy;
   @HiveField(9, defaultValue: 'null')
   final String string;
+  @HiveField(10, defaultValue: false)
+  final bool isLive;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -59,6 +62,7 @@ class Address extends HiveObject {
       'add_by': addBy,
       'register_date': registerDate,
       'last_update': lastUpdate,
+      'is_live': isLive,
     };
   }
 
@@ -75,6 +79,7 @@ class Address extends HiveObject {
       addBy: map['add_by'] ?? '',
       registerDate: TimeFun.parseTime(map['register_date']),
       lastUpdate: TimeFun.parseTime(map['last_update']),
+      isLive: map['is_live'],
     );
     LocalAddress().add(address);
     return address;

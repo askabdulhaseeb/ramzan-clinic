@@ -11,10 +11,10 @@ class AddressAPI {
   Future<void> create(Address value) async {
     try {
       await _collection.document(value.addressID).set(value.toMap());
-      LocalAddress().add(value);
     } catch (e) {
       debugPrint(e.toString());
     }
+    LocalAddress().add(value);
   }
 
   Future<Address?> address(String value) async {

@@ -20,7 +20,7 @@ class Case {
     required this.discountInRupees,
     required this.payable,
     required this.paidAmount,
-    required this.isLive,
+    this.isLive = false,
     DateTime? reigsterDate,
     DateTime? lastUpdate,
   })  : reigsterDate = reigsterDate ?? DateTime.now(),
@@ -52,7 +52,7 @@ class Case {
   final DateTime reigsterDate;
   @HiveField(12)
   final DateTime lastUpdate;
-  @HiveField(13)
+  @HiveField(13, defaultValue: false)
   final bool isLive;
   @HiveField(14)
   final String departmentID;
@@ -98,7 +98,7 @@ class Case {
       paidAmount: map['paid_amount'] ?? 0.0,
       reigsterDate: TimeFun.parseTime(map['reigster_date']),
       lastUpdate: TimeFun.parseTime(map['last_update']),
-      isLive: map['is_live'] ?? true,
+      isLive: true,
     );
     LocalCase().add(obj);
     return obj;

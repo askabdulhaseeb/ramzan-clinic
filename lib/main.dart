@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:firedart/firedart.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -37,9 +38,9 @@ class MyApp extends StatelessWidget {
           stream: AuthAPI().signInState,
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             log('Login State: ${snapshot.connectionState.name}');
-            return snapshot.data ?? false
-                ? const DashboardScreen()
-                : const SignInScreen();
+            return  snapshot.data ?? false
+                    ? const DashboardScreen()
+                    : const SignInScreen();
           },
         ),
         routes: myRoutes,

@@ -21,19 +21,22 @@ class PatientAdapter extends TypeAdapter<Patient> {
       lastName: fields[2] as String,
       gender: fields[3] as Gender,
       cnic: fields[4] as String,
-      address: fields[5] as Address,
+      address: fields[5] as String,
       phoneNumber: fields[7] as String,
+      dob: fields[12] as DateTime,
+      ecryptedPhoneNumber: fields[11] as String?,
       fullAddress: fields[6] as String?,
       patientID: fields[0] as String?,
       registerDate: fields[8] as DateTime?,
       lastUpdate: fields[9] as DateTime?,
+      isLive: fields[10] == null ? false : fields[10] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Patient obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(13)
       ..writeByte(0)
       ..write(obj.patientID)
       ..writeByte(1)
@@ -53,7 +56,13 @@ class PatientAdapter extends TypeAdapter<Patient> {
       ..writeByte(8)
       ..write(obj.registerDate)
       ..writeByte(9)
-      ..write(obj.lastUpdate);
+      ..write(obj.lastUpdate)
+      ..writeByte(10)
+      ..write(obj.isLive)
+      ..writeByte(11)
+      ..write(obj.ecryptedPhoneNumber)
+      ..writeByte(12)
+      ..write(obj.dob);
   }
 
   @override

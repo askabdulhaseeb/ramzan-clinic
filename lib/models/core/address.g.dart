@@ -27,13 +27,14 @@ class AddressAdapter extends TypeAdapter<Address> {
       country: fields[1] == null ? 'null' : fields[1] as String?,
       registerDate: fields[6] as DateTime?,
       lastUpdate: fields[7] as DateTime?,
+      isLive: fields[10] == null ? false : fields[10] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Address obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.addressID)
       ..writeByte(1)
@@ -53,7 +54,9 @@ class AddressAdapter extends TypeAdapter<Address> {
       ..writeByte(8)
       ..write(obj.addBy)
       ..writeByte(9)
-      ..write(obj.string);
+      ..write(obj.string)
+      ..writeByte(10)
+      ..write(obj.isLive);
   }
 
   @override

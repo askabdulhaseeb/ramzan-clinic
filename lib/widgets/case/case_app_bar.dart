@@ -13,7 +13,7 @@ class CaseAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Department> departments = LocalDepartment().departments();
+      final List<Department> departments = LocalDepartment().departments();
     return Consumer<CaseProvider>(
         builder: (BuildContext context, CaseProvider casePro, _) {
       final List<AppUser> doctor = LocalUser().userByDepartment(

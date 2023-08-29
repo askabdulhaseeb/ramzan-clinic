@@ -11,10 +11,10 @@ class CaseAPI {
   Future<void> create(Case value) async {
     try {
       await _collection.document(value.departmentID).set(value.toMap());
-      LocalCase().add(value);
     } catch (e) {
       debugPrint(e.toString());
     }
+    LocalCase().add(value);
   }
 
   Future<Case?> caseByID(String value) async {

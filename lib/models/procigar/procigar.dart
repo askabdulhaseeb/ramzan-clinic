@@ -19,7 +19,7 @@ class Procigar {
     String? addBy,
     DateTime? registerTime,
     DateTime? lastUpdate,
-  })  : testID = testID ?? IdGenerator.provigarID(name),
+  })  : testID = testID ?? IdGenerator.procigarID(name),
         discountInRupees =
             discountInRupees ?? (fee * (discountInPercent / 100)),
         addBy = addBy ?? AuthAPI.uid,
