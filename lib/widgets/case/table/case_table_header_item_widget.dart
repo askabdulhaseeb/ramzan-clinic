@@ -43,7 +43,7 @@ class CaseTableItemWidget extends StatelessWidget {
               flex: _priceFlex,
               child: Center(
                 child: Text(
-                  item.price.toString(),
+                  item.price.toStringAsFixed(1),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
@@ -73,7 +73,7 @@ class CaseTableItemWidget extends StatelessWidget {
               flex: _totalFlex,
               child: Center(
                 child: Text(
-                  item.total.toString(),
+                  item.total.toStringAsFixed(1),
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),

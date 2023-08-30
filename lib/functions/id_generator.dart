@@ -6,6 +6,9 @@ class IdGenerator {
   static String dummyUser(String name) {
     return '${_trim(name)}${generateRandomString()}';
   }
+  static String counterID() {
+    return '${AuthAPI.uid}-${generateRandomString()}';
+  }
 
   static String patientID(String name) {
     return '${_trim(name)}${generateRandomString()}';

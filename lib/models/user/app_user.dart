@@ -1,9 +1,11 @@
+import 'dart:convert';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../database/local/local_user.dart';
 import '../../enums/day.dart';
 import '../../functions/time_fun.dart';
 import '../core/routine.dart';
+
 part 'app_user.g.dart';
 
 @HiveType(typeId: 11)
@@ -72,6 +74,25 @@ class AppUser {
   @HiveField(15)
   final bool isRegistered;
 
+  Map<String, dynamic> _toMap() {
+    return <String, dynamic>{
+      'uid': uid,
+      'name': name,
+      'email': email,
+      'password': password,
+      'image_url': imageURL,
+      'department_id': departmentID,
+      'phone_number': phoneNumber,
+      'job_description': jobDescription,
+      'salary': salary,
+      'address_id': addressID,
+      'routine': routine.map((Routine e) => e.toMap()).toList(),
+      'full_address': fullAddress,
+      'is_admin': isAdmin,
+      'is_registered': isRegistered,
+    };
+  }
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'uid': uid,
@@ -108,10 +129,12 @@ class AppUser {
       fullAddress: map['full_address'] ?? '',
       salary: map['salary'] ?? 0.0,
       addressID: map['address_id'] ?? '',
-      routine: List<Routine>.from(
-        (map['routine'] as List<dynamic>).map<Routine>(
-            (dynamic x) => Routine.fromMap(x as Map<String, dynamic>)),
-      ),
+      routine: map['routine'] == null
+          ? <Routine>[]
+          : List<Routine>.from(
+              (map['routine'] as List<dynamic>).map<Routine>(
+                  (dynamic x) => Routine.fromMap(x as Map<String, dynamic>)),
+            ),
       registerDate: TimeFun.parseTime(map['register_date']),
       lastUpdate: TimeFun.parseTime(map['last_update']),
       isRegistered: map['is_registered'] ?? false,
@@ -119,4 +142,9 @@ class AppUser {
     LocalUser().add(user);
     return user;
   }
+
+  String toJson() => json.encode(_toMap());
+
+  factory AppUser.fromJson(String source) =>
+      AppUser.fromMap(json.decode(source) as Map<String, dynamic>);
 }

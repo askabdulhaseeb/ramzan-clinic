@@ -3,6 +3,7 @@ import 'package:firedart/auth/user_gateway.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/user/app_user.dart';
+import '../local/local_auth.dart';
 import 'user_api.dart';
 
 class AuthAPI {
@@ -21,6 +22,9 @@ class AuthAPI {
     try {
       final User user = await _auth.signIn(email.trim(), password.trim());
       final AppUser? appUser = await UserAPI().user(user.id);
+      if (appUser != null) {
+        LocalAuth().setCurrentUser(appUser);
+      }
       return appUser;
     } catch (e) {
       debugPrint('$email & $password - $e');

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/case/case.dart';
 import '../local/local_case.dart';
+import '../local/local_counter.dart';
 
 class CaseAPI {
   final CollectionReference _collection =
@@ -16,6 +17,7 @@ class CaseAPI {
       value.isLive = false;
       debugPrint(e.toString());
     }
+    LocalCounter().updateCash(value.payable);
     LocalCase().add(value);
   }
 

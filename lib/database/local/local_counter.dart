@@ -26,7 +26,7 @@ class LocalCounter {
       if (_box.isEmpty) {
         await _box.put(value.counterID, value);
       } else {
-        await CounterAPI().create(counter());
+        await CounterAPI().create(await counter());
         _box.clear();
         add(value);
       }
@@ -35,14 +35,28 @@ class LocalCounter {
     }
   }
 
-  Counter counter() {
+  void updateCounter(Counter value) {
+    try {
+      _box.put(value.counterID, value);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> updateCash(double value) async {
+    final Counter result = await counter();
+    result.onAddCase(value);
+    updateCounter(result);
+  }
+
+  Future<Counter> counter() async {
     Counter? result;
     try {
-      result = _box.getAt(0);
+      result = _box.values.isEmpty ? null : _box.values.first;
     } catch (e) {
       debugPrint('Counter - ERROR: ${e.toString()}');
     }
-    return result ?? _null;
+    return result ?? await CounterAPI().myCounter() ?? _null;
   }
 
   Counter get _null => Counter(

@@ -2,7 +2,7 @@ import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/case/counter.dart';
-import '../local/local_counter.dart';
+import 'auth_api.dart';
 
 class CounterAPI {
   final CollectionReference _collection =
@@ -16,13 +16,50 @@ class CounterAPI {
       value.isLive = false;
       debugPrint(e.toString());
     }
-    LocalCounter().add(value);
   }
 
   Future<Counter?> counter(String value) async {
     try {
       final Document doc = await _collection.document(value).get();
       return Counter.fromMap(doc.map);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> update(Counter value) async {
+    try {
+      await _collection.document(value.counterID).update(value.updateMap());
+    } catch (e) {
+      return;
+    }
+  }
+
+  Future<List<Counter>> openCounters() async {
+    List<Counter> results = <Counter>[];
+    try {
+      final List<Document> docs =
+          await _collection.where('is_opened', isEqualTo: true).get();
+      for (Document element in docs) {
+        results.add(Counter.fromMap(element.map));
+      }
+    } catch (e) {
+      return results;
+    }
+    return results;
+  }
+
+  Future<Counter?> myCounter() async {
+    List<Counter> results = <Counter>[];
+    try {
+      final List<Document> docs = await _collection
+          .where('is_opened', isEqualTo: true)
+          .where('uid', isEqualTo: AuthAPI.uid)
+          .get();
+      for (Document element in docs) {
+        results.add(Counter.fromMap(element.map));
+      }
+      return results.isEmpty ? null : results[0];
     } catch (e) {
       return null;
     }

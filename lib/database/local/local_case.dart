@@ -35,6 +35,15 @@ class LocalCase {
     return user ?? await _load(id);
   }
 
+  Future<List<Case>> caseByDate(DateTime date) async {
+    return _box.values
+        .where((Case element) =>
+            element.reigsterDate.year == date.year &&
+            element.reigsterDate.month == date.month &&
+            element.reigsterDate.day == date.day)
+        .toList();
+  }
+
   List<Case> get cases => _box.values.toList();
 
   Future<Case> _load(String id) async {

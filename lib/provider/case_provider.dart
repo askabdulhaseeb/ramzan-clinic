@@ -6,6 +6,7 @@ import '../database/local/local_auth.dart';
 import '../database/local/local_counter.dart';
 import '../models/case/case_item.dart';
 import '../models/case/case.dart';
+import '../models/case/counter.dart';
 import '../models/core/department.dart';
 import '../models/patient/patient.dart';
 import '../models/user/app_user.dart';
@@ -24,14 +25,15 @@ class CaseProvider extends ChangeNotifier {
       return;
     }
     onLoading(true);
+    final Counter counter = await LocalCounter().counter();
     Case result = Case(
-      caseID: 'caseID',
+      caseID: DateTime.now().millisecondsSinceEpoch.toString(),
       tokenID: 'tokenID',
       patientID: patient?.patientID ?? '',
       departmentID: _department?.departmentID ?? '',
       doctorID: _doctor?.uid ?? LocalAuth.uid,
       operatorID: AuthAPI.uid,
-      counterID: LocalCounter().counter().counterID,
+      counterID: counter.counterID,
       items: _items,
       discountInPercent: _discountInPercent,
       discountInRupees: _discountInRupees,
@@ -39,6 +41,7 @@ class CaseProvider extends ChangeNotifier {
       paidAmount: _paidAmount,
     );
     await CaseAPI().create(result);
+
     //
     reset();
   }

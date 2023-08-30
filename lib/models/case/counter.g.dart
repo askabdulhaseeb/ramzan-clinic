@@ -17,22 +17,24 @@ class CounterAdapter extends TypeAdapter<Counter> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Counter(
-      counterID: fields[0] as String,
-      uid: fields[1] as String,
-      counterCases: fields[2] as int,
-      dayCases: fields[3] as int,
       openingCash: fields[4] as double,
       cashInCounter: fields[5] as double,
+      counterID: fields[0] as String?,
+      uid: fields[1] as String?,
       isOpened: fields[6] as bool,
-      openingTime: fields[7] as DateTime,
-      closingTime: fields[8] as DateTime,
+      counterCases: fields[2] as int,
+      dayCases: fields[3] as int,
+      lastUpdate: fields[10] as DateTime?,
+      openingTime: fields[7] as DateTime?,
+      closingTime: fields[8] as DateTime?,
+      isLive: fields[9] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, Counter obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.counterID)
       ..writeByte(1)
@@ -50,7 +52,11 @@ class CounterAdapter extends TypeAdapter<Counter> {
       ..writeByte(7)
       ..write(obj.openingTime)
       ..writeByte(8)
-      ..write(obj.closingTime);
+      ..write(obj.closingTime)
+      ..writeByte(9)
+      ..write(obj.isLive)
+      ..writeByte(10)
+      ..write(obj.lastUpdate);
   }
 
   @override

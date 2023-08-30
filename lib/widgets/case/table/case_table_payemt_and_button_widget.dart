@@ -93,7 +93,7 @@ class CaseTablePaymentAndButtonWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Total Payable: ${casePro.payable}',
+                    'Total Payable: ${casePro.payable.toStringAsFixed(1)}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,
@@ -110,7 +110,7 @@ class CaseTablePaymentAndButtonWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Remaing: ${casePro.remainingAmount}',
+                    'Remaing: ${casePro.remainingAmount.toStringAsFixed(1)}',
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 24,

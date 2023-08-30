@@ -8,7 +8,7 @@ import 'basics.dart';
 import 'database/apis/auth_api.dart';
 import 'database/local/local_db.dart';
 import 'screens/auth/signin_screen.dart';
-import 'screens/bashboard/dashboard_screen.dart';
+import 'screens/counter/create_counter_screen.dart';
 import 'utilities/utilities.dart';
 
 Future<void> main() async {
@@ -37,9 +37,9 @@ class MyApp extends StatelessWidget {
           stream: AuthAPI().signInState,
           builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
             log('Login State: ${snapshot.connectionState.name}');
-            return  snapshot.data ?? false
-                    ? const DashboardScreen()
-                    : const SignInScreen();
+            return snapshot.data ?? false
+                ? const CreateCounterScreen()
+                : const SignInScreen();
           },
         ),
         routes: myRoutes,
@@ -56,5 +56,4 @@ class MyApp extends StatelessWidget {
 // User 11...19
 // User 21...29
 // Test And Procigar 31...39
-// Procigar 41...49
 // Case 51...59
