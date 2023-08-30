@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../database/apis/auth_api.dart';
 import '../../widgets/case/case_app_bar.dart';
-import '../../widgets/case/case_patient_display_widget.dart';
+import '../../widgets/case/case_chooseable_side_widget.dart';
+import '../../widgets/case/table/case_table_widget.dart';
 import '../../widgets/custom/custom_vertical_divider.dart';
 
 class CaseScreen extends StatelessWidget {
@@ -41,17 +42,18 @@ class CaseScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
+      body: const Column(
         children: <Widget>[
-          const Text(
+          Text(
             'Ramzan Clinic',
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
           ),
           Expanded(
             child: Row(
               children: <Widget>[
-                Container(),
-                const CasePatientDisplayWidget(),
+                CaseChooseableSideWidget(),
+                CaseTableWidget(),
+                SizedBox(width: 16),
               ],
             ),
           ),

@@ -10,8 +10,10 @@ class CaseAPI {
 
   Future<void> create(Case value) async {
     try {
-      await _collection.document(value.departmentID).set(value.toMap());
+      await _collection.document(value.caseID).set(value.toMap());
+      value.isLive = true;
     } catch (e) {
+      value.isLive = false;
       debugPrint(e.toString());
     }
     LocalCase().add(value);

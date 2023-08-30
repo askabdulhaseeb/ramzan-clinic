@@ -53,7 +53,7 @@ class Case {
   @HiveField(12)
   final DateTime lastUpdate;
   @HiveField(13, defaultValue: false)
-  final bool isLive;
+  bool isLive;
   @HiveField(14)
   final String departmentID;
 

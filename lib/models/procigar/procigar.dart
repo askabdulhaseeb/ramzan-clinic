@@ -45,6 +45,8 @@ class Procigar {
   @HiveField(8)
   final ProcigarType type;
 
+  double get priceAfterDiscount => fee - discountInRupees;
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'test_id': testID,

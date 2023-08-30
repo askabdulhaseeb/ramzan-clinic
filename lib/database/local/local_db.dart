@@ -16,6 +16,8 @@ import '../../models/procigar/procigar.dart';
 import '../../models/user/app_user.dart';
 import 'local_address.dart';
 import 'local_auth.dart';
+import 'local_case.dart';
+import 'local_counter.dart';
 import 'local_department.dart';
 import 'local_patient.dart';
 import 'local_procigar.dart';
@@ -38,7 +40,7 @@ class LocalDB {
     // PROCIGER 31...39
     Hive.registerAdapter(ProcigarAdapter()); // 31
     Hive.registerAdapter(ProcigarTypeAdapter()); // 32
-    
+
     // PROCIGER 51...59
     Hive.registerAdapter(CaseAdapter()); // 51
     Hive.registerAdapter(CaseItemAdapter()); // 52
@@ -61,5 +63,7 @@ class LocalDB {
     await LocalAddress.openBox;
     await LocalDepartment.openBox;
     await LocalProcigar.openBox;
+    await LocalCase.openBox;
+    await LocalCounter.openBox;
   }
 }

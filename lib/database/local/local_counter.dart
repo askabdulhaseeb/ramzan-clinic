@@ -36,8 +36,13 @@ class LocalCounter {
   }
 
   Counter counter() {
-    final Counter? user = _box.getAt(0);
-    return user ?? _null;
+    Counter? result;
+    try {
+      result = _box.getAt(0);
+    } catch (e) {
+      debugPrint('Counter - ERROR: ${e.toString()}');
+    }
+    return result ?? _null;
   }
 
   Counter get _null => Counter(

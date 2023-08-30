@@ -11,10 +11,12 @@ class CounterAPI {
   Future<void> create(Counter value) async {
     try {
       await _collection.document(value.counterID).set(value.toMap());
-      LocalCounter().add(value);
+      value.isLive = true;
     } catch (e) {
+      value.isLive = false;
       debugPrint(e.toString());
     }
+    LocalCounter().add(value);
   }
 
   Future<Counter?> counter(String value) async {

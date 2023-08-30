@@ -11,7 +11,9 @@ class PatientAPI {
   Future<void> create(Patient value) async {
     try {
       await _collection.document(value.patientID).set(value.toMap());
+      value.isLive = true;
     } catch (e) {
+      value.isLive = false;
       debugPrint(e.toString());
     }
     LocalPatient().add(value);

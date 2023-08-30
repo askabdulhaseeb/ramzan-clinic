@@ -5,7 +5,7 @@ import '../../utilities/utilities.dart';
 
 class CustomTextFormField extends StatefulWidget {
   const CustomTextFormField({
-    required TextEditingController? controller,
+    TextEditingController? controller,
     this.textCapitalization,
     this.padding,
     this.onFieldSubmitted,

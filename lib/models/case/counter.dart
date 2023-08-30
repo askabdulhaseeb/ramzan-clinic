@@ -16,6 +16,7 @@ class Counter {
     required this.isOpened,
     required this.openingTime,
     required this.closingTime,
+    this.isLive = false,
   });
 
   @HiveField(0)
@@ -36,6 +37,8 @@ class Counter {
   final DateTime openingTime;
   @HiveField(8)
   final DateTime closingTime;
+  @HiveField(9)
+  bool isLive;
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -48,6 +51,7 @@ class Counter {
       'is_opened': isOpened,
       'opening_time': openingTime,
       'closing_time': DateTime.now(),
+      'is_live': true,
     };
   }
 
@@ -61,6 +65,7 @@ class Counter {
       openingCash: map['opening_cash'] ?? 0.0,
       cashInCounter: map['cash_in_counter'] ?? 0.0,
       isOpened: map['is_opened'] ?? false,
+      isLive: true,
       openingTime: TimeFun.parseTime(map['opening_time']),
       closingTime: TimeFun.parseTime(map['closing_time']),
     );

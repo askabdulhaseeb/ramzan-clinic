@@ -18,7 +18,7 @@ class CaseItem {
   @HiveField(2)
   final double price;
   @HiveField(3)
-  final int quantity;
+  int quantity;
   @HiveField(4)
   final double discountInPercent;
 

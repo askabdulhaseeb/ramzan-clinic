@@ -1,25 +1,72 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
+import '../database/apis/auth_api.dart';
+import '../database/apis/case_api.dart';
+import '../database/local/local_auth.dart';
+import '../database/local/local_counter.dart';
 import '../models/case/case_item.dart';
+import '../models/case/case.dart';
 import '../models/core/department.dart';
 import '../models/patient/patient.dart';
 import '../models/user/app_user.dart';
+import '../widgets/custom/custom_toast.dart';
 
 class CaseProvider extends ChangeNotifier {
-  onSave() {
+  onSave(BuildContext context) async {
     // Business Logic
-
+    if (_discountInPercent > 100) {
+      CustomToast.errorSnackBar(
+          context: context, text: 'Max Discount Can be 100%');
+      return;
+    }
+    if (_items.isEmpty) {
+      CustomToast.errorSnackBar(context: context, text: 'No Item Selected Yet');
+      return;
+    }
+    onLoading(true);
+    Case result = Case(
+      caseID: 'caseID',
+      tokenID: 'tokenID',
+      patientID: patient?.patientID ?? '',
+      departmentID: _department?.departmentID ?? '',
+      doctorID: _doctor?.uid ?? LocalAuth.uid,
+      operatorID: AuthAPI.uid,
+      counterID: LocalCounter().counter().counterID,
+      items: _items,
+      discountInPercent: _discountInPercent,
+      discountInRupees: _discountInRupees,
+      payable: _payable,
+      paidAmount: _paidAmount,
+    );
+    await CaseAPI().create(result);
     //
     reset();
   }
 
   void reset() {
     // _tokenID
+    _noOfPrints.text = '1';
+    _discountController.clear();
+    _paidController.clear();
     _patient = null;
     _items.clear();
+    _isLoading = false;
     onDiscountInPercent('0');
     onPaidAmountUpdate('0');
     _calculation();
+  }
+
+  onLoading(bool value) {
+    _isLoading = value;
+    notifyListeners();
+  }
+
+  int totalItemsQty() {
+    int result = 0;
+    for (CaseItem element in _items) {
+      result += element.quantity;
+    }
+    return result;
   }
 
   void onDepartmentUpdate(Department? value) {
@@ -41,7 +88,11 @@ class CaseProvider extends ChangeNotifier {
 
   void onAddItem(CaseItem? value) {
     if (value == null) return;
-    _items.add(value);
+    _items.any((CaseItem element) => element.id == value.id)
+        ? _items
+            .firstWhere((CaseItem element) => element.id == value.id)
+            .quantity++
+        : _items.add(value);
     _calculation();
   }
 
@@ -51,9 +102,18 @@ class CaseProvider extends ChangeNotifier {
     _calculation();
   }
 
+  double itemsTotal() {
+    double result = 0;
+    for (CaseItem element in _items) {
+      result += element.total;
+    }
+    return result;
+  }
+
   void onDiscountInPercent(String? value) {
     if (value == null) return;
     _discountInPercent = double.tryParse(value) ?? 0.0;
+    _calculation();
     _onDiscountInRupees();
   }
 
@@ -63,17 +123,15 @@ class CaseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  double get remainingAmount => _payable - _paidAmount;
+
   void _onDiscountInRupees() {
     _discountInRupees = _payable * (_discountInPercent / 100);
-    notifyListeners();
   }
 
   void _calculation() {
-    double amount = 0;
-    for (CaseItem element in _items) {
-      amount += element.total;
-    }
-    amount -= _discountInRupees;
+    double amount = itemsTotal();
+    amount -= (amount * (_discountInPercent / 100));
     _payable = amount;
     notifyListeners();
   }
@@ -88,6 +146,10 @@ class CaseProvider extends ChangeNotifier {
   double get discountInRupees => _discountInRupees;
   double get payable => _payable;
   double get paidAmount => _paidAmount;
+  bool get isLoading => _isLoading;
+  TextEditingController get noOfPrints => _noOfPrints;
+  TextEditingController get discountController => _discountController;
+  TextEditingController get paidController => _paidController;
 
   // VARIABLES
   String? _tokenID;
@@ -99,4 +161,8 @@ class CaseProvider extends ChangeNotifier {
   double _discountInRupees = 0;
   double _payable = 0;
   double _paidAmount = 0;
+  bool _isLoading = false;
+  final TextEditingController _noOfPrints = TextEditingController(text: '1');
+  final TextEditingController _discountController = TextEditingController();
+  final TextEditingController _paidController = TextEditingController();
 }

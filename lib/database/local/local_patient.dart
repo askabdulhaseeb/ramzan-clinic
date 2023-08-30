@@ -46,7 +46,7 @@ class LocalPatient {
             '${element.name} ${element.lastName}'.toLowerCase().contains(value))
         .toList();
     final List<Patient> res =
-        result.getRange(0, result.length > 2 ? 2 : result.length).toList();
+        result.getRange(0, result.length > 4 ? 4 : result.length).toList();
     return res;
   }
 
