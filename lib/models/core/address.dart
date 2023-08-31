@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
 
-import '../../database/apis/auth_api.dart';
 import '../../database/local/local_address.dart';
+import '../../database/local/local_auth.dart';
 import '../../functions/id_generator.dart';
 import '../../functions/time_fun.dart';
 part 'address.g.dart';
@@ -23,7 +23,7 @@ class Address extends HiveObject {
   })  : addressID = addressID ?? IdGenerator.address(town),
         country = country ?? 'Pakistan',
         string = string ?? '$town, $city, $district, $province, $country',
-        addBy = addBy ?? AuthAPI.uid,
+        addBy = addBy ?? LocalAuth.uid,
         registerDate = registerDate ?? DateTime.now(),
         lastUpdate = lastUpdate ?? DateTime.now();
 

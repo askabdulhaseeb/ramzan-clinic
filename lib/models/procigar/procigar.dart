@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../database/apis/auth_api.dart';
+import '../../database/local/local_auth.dart';
 import '../../database/local/local_procigar.dart';
 import '../../enums/procigar_type.dart';
 import '../../functions/id_generator.dart';
@@ -22,7 +22,7 @@ class Procigar {
   })  : testID = testID ?? IdGenerator.procigarID(name),
         discountInRupees =
             discountInRupees ?? (fee * (discountInPercent / 100)),
-        addBy = addBy ?? AuthAPI.uid,
+        addBy = addBy ?? LocalAuth.uid,
         registerTime = registerTime ?? DateTime.now(),
         lastUpdate = lastUpdate ?? DateTime.now();
 

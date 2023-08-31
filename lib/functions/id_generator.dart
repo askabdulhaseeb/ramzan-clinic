@@ -1,13 +1,14 @@
 import 'dart:math';
 
-import '../database/apis/auth_api.dart';
+import '../database/local/local_auth.dart';
 
 class IdGenerator {
   static String dummyUser(String name) {
     return '${_trim(name)}${generateRandomString()}';
   }
+
   static String counterID() {
-    return '${AuthAPI.uid}-${generateRandomString()}';
+    return '${LocalAuth.uid}-${generateRandomString()}';
   }
 
   static String patientID(String name) {
@@ -32,7 +33,7 @@ class IdGenerator {
     // don't user 0, it confuse users sometimes with 'o' and 'O'
     const String number = '123456789';
     final String possibleChar =
-        letterLowerCase + AuthAPI.uid + letterUpperCase + number;
+        letterLowerCase + LocalAuth.uid + letterUpperCase + number;
     return _trim(List<String>.generate(length, (int index) {
       final int indexRandom = Random.secure().nextInt(possibleChar.length);
       return possibleChar[indexRandom];

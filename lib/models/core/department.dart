@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
 
-import '../../database/apis/auth_api.dart';
+import '../../database/local/local_auth.dart';
 import '../../database/local/local_department.dart';
 import '../../functions/id_generator.dart';
 import '../../functions/time_fun.dart';
@@ -16,7 +16,7 @@ class Department {
     DateTime? lastUpdate,
     this.isActive = true,
   })  : departmentID = departmentID ?? IdGenerator.department(title),
-        registerBy = registerBy ?? AuthAPI.uid,
+        registerBy = registerBy ?? LocalAuth.uid,
         registerDate = registerDate ?? DateTime.now(),
         lastUpdate = lastUpdate ?? DateTime.now();
 

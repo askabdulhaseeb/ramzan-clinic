@@ -145,6 +145,7 @@ class AppUser {
 
   String toJson() => json.encode(_toMap());
 
+  // ignore: sort_constructors_first
   factory AppUser.fromJson(String source) =>
       AppUser.fromMap(json.decode(source) as Map<String, dynamic>);
 }

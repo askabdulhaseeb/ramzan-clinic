@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'basics.dart';
-import 'database/apis/auth_api.dart';
+import 'database/local/local_auth.dart';
 import 'database/local/local_db.dart';
 import 'screens/auth/signin_screen.dart';
 import 'screens/counter/create_counter_screen.dart';
@@ -33,15 +31,9 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: StreamBuilder<bool>(
-          stream: AuthAPI().signInState,
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-            log('Login State: ${snapshot.connectionState.name}');
-            return snapshot.data ?? false
-                ? const CreateCounterScreen()
-                : const SignInScreen();
-          },
-        ),
+        home: LocalAuth.uid.isEmpty
+            ? const SignInScreen()
+            : const CreateCounterScreen(),
         routes: myRoutes,
       ),
     );

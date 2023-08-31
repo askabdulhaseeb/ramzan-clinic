@@ -1,6 +1,6 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../database/apis/auth_api.dart';
+import '../../database/local/local_auth.dart';
 import '../../functions/id_generator.dart';
 import '../../functions/time_fun.dart';
 part 'counter.g.dart';
@@ -20,7 +20,7 @@ class Counter {
     DateTime? closingTime,
     this.isLive = false,
   })  : counterID = counterID ?? IdGenerator.counterID(),
-        uid = uid ?? AuthAPI.uid,
+        uid = uid ?? LocalAuth.uid,
         lastUpdate = lastUpdate ?? DateTime.now(),
         openingTime = openingTime ?? DateTime.now(),
         closingTime = closingTime ?? DateTime.now();

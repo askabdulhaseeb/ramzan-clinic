@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../database/apis/auth_api.dart';
 import '../database/apis/case_api.dart';
 import '../database/local/local_auth.dart';
 import '../database/local/local_counter.dart';
@@ -32,7 +31,7 @@ class CaseProvider extends ChangeNotifier {
       patientID: patient?.patientID ?? '',
       departmentID: _department?.departmentID ?? '',
       doctorID: _doctor?.uid ?? LocalAuth.uid,
-      operatorID: AuthAPI.uid,
+      operatorID: LocalAuth.uid,
       counterID: counter.counterID,
       items: _items,
       discountInPercent: _discountInPercent,

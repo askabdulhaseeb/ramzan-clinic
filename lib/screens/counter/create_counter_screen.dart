@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../database/apis/auth_api.dart';
 import '../../database/apis/counter_api.dart';
 import '../../database/local/local_auth.dart';
 import '../../database/local/local_case.dart';
@@ -38,7 +37,7 @@ class _CreateCounterScreenState extends State<CreateCounterScreen> {
 
   _init() async {
     final Counter result = await LocalCounter().counter();
-    result.counterID.isEmpty || result.uid != AuthAPI.uid
+    result.counterID.isEmpty || result.uid != LocalAuth.uid
         ? currentCounter = null
         : currentCounter = result;
     _openingBalance.text = (currentCounter?.openingCash ?? 0) <= 0

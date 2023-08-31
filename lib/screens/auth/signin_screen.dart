@@ -8,6 +8,7 @@ import '../../widgets/custom/custom_elevated_button.dart';
 import '../../widgets/custom/custom_textformfield.dart';
 import '../../widgets/custom/custom_toast.dart';
 import '../../widgets/custom/password_textformfield.dart';
+import '../bashboard/dashboard_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -74,6 +75,9 @@ class _SignInScreenState extends State<SignInScreen> {
       setState(() {
         isLoading = false;
       });
+    } else {
+      if (!mounted) return;
+      Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName);
     }
     // Done
   }

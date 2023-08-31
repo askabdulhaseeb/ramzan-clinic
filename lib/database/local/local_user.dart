@@ -42,12 +42,31 @@ class LocalUser {
             .toList();
   }
 
+  Future<AppUser?> login({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final Box<AppUser> box = await refresh();
+      final AppUser result = box.values.firstWhere(
+        (AppUser element) =>
+            element.email == email && element.password == password,
+        orElse: () => _null,
+      );
+      print('${result.uid} - ${(result.uid == _null.uid)}');
+      return result.uid == _null.uid ? null : result;
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return null;
+  }
+
   Future<AppUser> _load(String uid) async {
     return await UserAPI().user(uid) ?? _null;
   }
 
   AppUser get _null => AppUser(
-        uid: 'null',
+        uid: '',
         name: 'Null',
         email: 'null@null.com',
         imageURL: '',

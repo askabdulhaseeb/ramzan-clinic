@@ -74,6 +74,11 @@ class DashboardScreen extends StatelessWidget {
                   child: const Text('Case'),
                 ),
                 TextButton(
+                  onPressed: () =>
+                      Navigator.of(context).pushNamed(CaseScreen.routeName),
+                  child: const Text('Add Item'),
+                ),
+                TextButton(
                   onPressed: () => AuthAPI().signOut(),
                   child: const Text('Signout'),
                 ),

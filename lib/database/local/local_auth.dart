@@ -11,8 +11,11 @@ class LocalAuth {
   static const String _uidKey = 'UID_KEY';
   static const String _isAdmin = 'IS_ADMIN';
 
-  Future<void> setCurrentUser(AppUser value) =>
-      _preferences!.setString(_currentUser, value.toJson());
+  Future<void> setCurrentUser(AppUser value) async {
+    _preferences!.setString(_currentUser, value.toJson());
+    setUID(value.uid);
+  }
+
   Future<void> setUID(String value) => _preferences!.setString(_uidKey, value);
   Future<void> setIsAdmin(bool value) => _preferences!.setBool(_isAdmin, value);
 
@@ -24,4 +27,6 @@ class LocalAuth {
     if (result == null) return null;
     return AppUser.fromJson(result);
   }
+
+  Future<void> signOut() async => _preferences?.clear();
 }

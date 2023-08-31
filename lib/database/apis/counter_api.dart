@@ -2,7 +2,7 @@ import 'package:firedart/firedart.dart';
 import 'package:flutter/material.dart';
 
 import '../../models/case/counter.dart';
-import 'auth_api.dart';
+import '../local/local_auth.dart';
 
 class CounterAPI {
   final CollectionReference _collection =
@@ -54,7 +54,7 @@ class CounterAPI {
     try {
       final List<Document> docs = await _collection
           .where('is_opened', isEqualTo: true)
-          .where('uid', isEqualTo: AuthAPI.uid)
+          .where('uid', isEqualTo: LocalAuth.uid)
           .get();
       for (Document element in docs) {
         results.add(Counter.fromMap(element.map));
